@@ -134,7 +134,7 @@ MonoBehaviour:
   myRgbd: {fileID: 6992204218472812697}
   myCollider: {fileID: 6992204218472812696}
   addAmount: 1
-  flyingSpeed: 20
+  flyingSpeed: 25
 --- !u!58 &6992204218472812696
 CircleCollider2D:
   m_ObjectHideFlags: 0
