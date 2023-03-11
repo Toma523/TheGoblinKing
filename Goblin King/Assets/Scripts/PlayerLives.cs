@@ -30,6 +30,20 @@ public class PlayerLives : MonoBehaviour
         SetListOnStart();
     }
 
+    void SetListOnStart()
+    {
+        for (int i = 0; i < livesList.Count; i++)
+        {
+            livesList[i].SetActive(false);
+            Debug.Log(i);
+        }
+
+        for (int i = 0; i < playerLives; i++)
+        {
+            livesList[i].SetActive(true);
+        }
+    }
+
     void Update()
     {
         if(isProtected)
@@ -41,14 +55,6 @@ public class PlayerLives : MonoBehaviour
                 isProtected = false;
                 playerMovement.StopDmgActions();
             }
-        }
-    }
-
-    void SetListOnStart()
-    {
-        for (int i = 0; i < playerLives; i++)
-        {
-            livesList[i].SetActive(true);
         }
     }
 

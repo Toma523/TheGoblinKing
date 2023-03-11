@@ -23,5 +23,7 @@ public class EnemySpin : MonoBehaviour
     public void StopBodySpin()
     {
         canSpin = false;
+        // Go back to normal rotation
+        transform.localRotation = new Quaternion(0.00000f, 0.00000f, 0.70711f, 0.70711f);
     }
 }

@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     TrailRenderer myTrailRenderer;
     ParticleSystem particles;
     GameManager gameManager;
+    WavesManager wavesManager;
     bool isReadyToAttack = true;
     float saveMoveSpeed;
     bool canMove = true;
@@ -61,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
     bool isPressingRTrigger;
     bool pressedAttack;
     bool isGamePaused;
+    bool isNewWaveProtected;
 
     void Start() 
     {
@@ -79,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
         saveNoInputTime = noInputTime;
         particles = GetComponent<ParticleSystem>();
         gameManager = FindObjectOfType<GameManager>();
+        wavesManager = FindObjectOfType<WavesManager>();
     }
 
     void Update() 
@@ -291,12 +294,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            if(!isDmgProtected)
+            if(!isDmgProtected && !isNewWaveProtected)
             {
                 hitBy = other.gameObject;
                 playerLives.ProcessDamageTaken(other.gameObject);
             }
         }
+    }
+
+    public void NewWaveProtection()
+    {
+        isNewWaveProtected = !isNewWaveProtected;
     }
 
     public void CheckDmgProtection(GameObject enemy)

@@ -35,6 +35,7 @@ public class GoblinEnemy : MonoBehaviour
     PlayerMovement playerMovement;
     TrailRenderer myTrailRenderer;
     EnemySpin bodySpin;
+    WavesManager wavesManager;
     bool isSmashed;
     bool isTouchingPlayer;
     bool isBouncing;
@@ -77,6 +78,17 @@ public class GoblinEnemy : MonoBehaviour
         myTrailRenderer = GetComponent<TrailRenderer>();
         saveDmg = damage;
         bodySpin = GetComponentInChildren<EnemySpin>();
+        wavesManager = FindObjectOfType<WavesManager>();
+    }
+
+    public void CanNotMove(){
+        canMove = false;
+        myBodyCollider.enabled = false;
+    }
+
+    public void CanMove(){
+        canMove = true;
+        myBodyCollider.enabled = true;
     }
 
     void Update()
@@ -336,6 +348,7 @@ public class GoblinEnemy : MonoBehaviour
     {
         bodySpin.StopBodySpin();
         yield return new WaitForSeconds(2f);
+        wavesManager.EnemyKilled();
         gameObject.SetActive(false);
     }
 
@@ -411,5 +424,4 @@ public class GoblinEnemy : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         myBodyCollider.isTrigger = false;
     }
-
 }
