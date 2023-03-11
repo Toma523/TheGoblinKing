@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Goblin
+  - Ver Wall
+  - Hor Wall
+  - Bounce Pad
+  - Block
+  - Detector
+  - RedGoblin
+  - TankGoblin
+  - Crystal
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Player
+  - Water
+  - UI
+  - Enemy
+  - Vertical Wall
+  - Horizontal Wall
+  - BouncePad
+  - Block
+  - Detector
+  - Crystal
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 3502359597
+    locked: 0
+  - name: Enemy
+    uniqueID: 4061728183
+    locked: 0
+  - name: Bounce Pad
+    uniqueID: 4041197013
+    locked: 0
+  - name: Wall
+    uniqueID: 639206965
+    locked: 0
+  - name: Crystals
+    uniqueID: 1664494525
+    locked: 0
