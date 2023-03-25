@@ -302,7 +302,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void NewWaveProtection()
+    public void ChangeWaveProtection()
     {
         isNewWaveProtected = !isNewWaveProtected;
     }

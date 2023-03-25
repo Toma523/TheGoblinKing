@@ -53,6 +53,7 @@ public class RedGoblin : MonoBehaviour
     bool isDoingSmashAnimation;
     int saveDmg;
     bool isBouncingFast;
+    WavesManager wavesManager;
 
     const string RedG_Charge = "RedG_Charge";
     const string RedG_Attack = "RedG_Attack";
@@ -76,6 +77,15 @@ public class RedGoblin : MonoBehaviour
         myTrailRenderer = GetComponent<TrailRenderer>();
         saveDmg = damage;
         bodySpin = GetComponentInChildren<EnemySpin>();
+        wavesManager = FindObjectOfType<WavesManager>();
+
+        StartCoroutine(DontMoveOnSpawn());
+    }
+
+    IEnumerator DontMoveOnSpawn(){
+        canMove = false;
+        yield return new WaitForSeconds(wavesManager.spawningTime);
+        canMove = true;
     }
 
     void Update()
@@ -334,6 +344,7 @@ public class RedGoblin : MonoBehaviour
     {
         bodySpin.StopBodySpin();
         yield return new WaitForSeconds(2f);
+        wavesManager.EnemyKilled();
         gameObject.SetActive(false);
     }
 

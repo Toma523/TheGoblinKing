@@ -79,16 +79,14 @@ public class GoblinEnemy : MonoBehaviour
         saveDmg = damage;
         bodySpin = GetComponentInChildren<EnemySpin>();
         wavesManager = FindObjectOfType<WavesManager>();
+
+        StartCoroutine(DontMoveOnSpawn());
     }
 
-    public void CanNotMove(){
+    IEnumerator DontMoveOnSpawn(){
         canMove = false;
-        myBodyCollider.enabled = false;
-    }
-
-    public void CanMove(){
+        yield return new WaitForSeconds(wavesManager.spawningTime);
         canMove = true;
-        myBodyCollider.enabled = true;
     }
 
     void Update()
