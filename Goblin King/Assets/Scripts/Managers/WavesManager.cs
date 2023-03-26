@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class WavesManager : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI waveText;
     [SerializeField] GameObject greenGoblin;
     [SerializeField] GameObject redGoblin;
-    [SerializeField] Waves waves;
     public float spawningTime = 3f;
+    [SerializeField] Waves[] wavesArray;
     List<GameObject> enemiesList;
     PlayerMovement playerMovement;
     GoblinEnemy goblinEnemy;
+    Waves currentWave;
     int enemiesKilled;
+    int enemiesAmount;
+    int i;
 
     void Start() {
         playerMovement = FindObjectOfType<PlayerMovement>();
@@ -19,22 +24,28 @@ public class WavesManager : MonoBehaviour
 
 
         // Idzie do osobnej funkcji
-        SpawnEnemies();
+        TriggerNextWave();
     }
 
     void SpawnEnemies(){
-        for (int i = 0; i < waves.enemiesAmount; i++){
-
-            if(waves.redGoblin){
-
-                if(Random.Range(1, 100) <= waves.redGoblinChance){
+        // Spawn given amount of enemies
+        enemiesAmount = Random.Range(currentWave.minEnemiesAmount, currentWave.maxEnemiesAmount + 1);
+        for (int i = 0; i < enemiesAmount; i++){
+            // Check if can spawn Red Goblin
+            if(currentWave.redGoblin){
+                // Calculate the chance of spawning Red Goblin
+                if(Random.Range(1, 100) <= currentWave.redGoblinChance){
+                    // Spawn Red Goblin
                     Instantiate(redGoblin, new Vector3(Random.Range(-10,10), Random.Range(5,-5), 0), Quaternion.identity);
                 }
-                else if(waves.greenGoblin){
+                else if(currentWave.greenGoblin){
+                    // Spawn Green Goblin
                     Instantiate(greenGoblin, new Vector3(Random.Range(-10,10), Random.Range(5,-5), 0), Quaternion.identity);
                 }
             }
-            else if(waves.greenGoblin){
+            // Check if can spawn Green Goblin
+            else if(currentWave.greenGoblin){
+                // Spawn Green Goblin
                 Instantiate(greenGoblin, new Vector3(Random.Range(-10,10), Random.Range(5,-5), 0), Quaternion.identity);
             }
         }
@@ -56,19 +67,27 @@ public class WavesManager : MonoBehaviour
         // Add enemy to killed enemies count
         enemiesKilled += 1;
         // Check if player killed all enemies in current wave
-        if(enemiesKilled == waves.enemiesAmount){
+        if(enemiesKilled == enemiesAmount){
             enemiesKilled = 0;
             TriggerNextWave();
         }
     }
 
     void TriggerNextWave(){
-        Debug.Log("Next wave!");
+        // Check if there is any wave left to come
+        if(i > wavesArray.Length - 1){
+            Debug.Log("No more waves!");
+            return;
+        }
+        // Set up next wave
+        currentWave = wavesArray[i];
+        i++;
+        waveText.text = "Wave " + i;
         SpawnEnemies();
+        Debug.Log("Next wave!");
     }
 
     //******************************* Return functions *********************************//
-
 
 }
 

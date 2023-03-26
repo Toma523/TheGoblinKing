@@ -85,8 +85,10 @@ public class GoblinEnemy : MonoBehaviour
 
     IEnumerator DontMoveOnSpawn(){
         canMove = false;
+        myBodyCollider.enabled = false;
         yield return new WaitForSeconds(wavesManager.spawningTime);
         canMove = true;
+        myBodyCollider.enabled = true;
     }
 
     void Update()
