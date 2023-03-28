@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     ParticleSystem particles;
     GameManager gameManager;
     WavesManager wavesManager;
+    SoundManager soundManager;
     bool isReadyToAttack = true;
     float saveMoveSpeed;
     bool canMove = true;
@@ -82,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
         particles = GetComponent<ParticleSystem>();
         gameManager = FindObjectOfType<GameManager>();
         wavesManager = FindObjectOfType<WavesManager>();
+        soundManager = FindObjectOfType<SoundManager>();
     }
 
     void Update() 
@@ -286,7 +288,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if(myAttackHitbox.enabled == true)
         {
-            Debug.Log("Bam!");
+            if(other.tag == "Goblin" || other.tag == "RedGoblin"){
+                soundManager.PlayHit();
+            }
+            else if(other.tag == "Hor Wall" || other.tag == "Ver Wall" || other.tag == "Bounce Pad"){
+                soundManager.PlayHitWall();
+            }
         }
     }
 
@@ -405,6 +412,7 @@ public class PlayerMovement : MonoBehaviour
         isReadyToAttack = false;
         spriteAnimator.SetBool("isAttacking", true);
         isAttacking = true;
+        soundManager.PlayWhoosh();
         yield return new WaitForSecondsRealtime(attackCooldown);
         // Attack again if pressed the button to soon
         isAttacking = false;
