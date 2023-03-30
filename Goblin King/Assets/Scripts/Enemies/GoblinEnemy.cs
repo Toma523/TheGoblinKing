@@ -36,6 +36,7 @@ public class GoblinEnemy : MonoBehaviour
     TrailRenderer myTrailRenderer;
     EnemySpin bodySpin;
     WavesManager wavesManager;
+    SoundManager soundManager;
     bool isSmashed;
     bool isTouchingPlayer;
     bool isBouncing;
@@ -79,6 +80,7 @@ public class GoblinEnemy : MonoBehaviour
         saveDmg = damage;
         bodySpin = GetComponentInChildren<EnemySpin>();
         wavesManager = FindObjectOfType<WavesManager>();
+        soundManager = FindObjectOfType<SoundManager>();
 
         StartCoroutine(DontMoveOnSpawn());
     }
@@ -179,6 +181,7 @@ public class GoblinEnemy : MonoBehaviour
         //other.tag == "Goblin" || other.tag == "RegGoblin"
         if(other.gameObject.layer == LayerMask.NameToLayer("Enemy") && !isSmashed)
         {
+            soundManager.PlayFrStunn();
             StartCoroutine(FriendlyStunn());
             Debug.Log("WTF bro!?");
         }
@@ -230,6 +233,7 @@ public class GoblinEnemy : MonoBehaviour
             }
             CheckLivesAmount();
             isBouncing = true;
+            soundManager.PlayBouncing();
             if(gameObject.activeSelf == false){return;}
             StartCoroutine(BouncingTimer());
             StopBouncing();
@@ -250,6 +254,7 @@ public class GoblinEnemy : MonoBehaviour
             }
             CheckLivesAmount();
             isBouncing = true;
+            soundManager.PlayBouncing();
             if(gameObject.activeSelf == false){return;}
             StartCoroutine(BouncingTimer());
             StopBouncing();
@@ -270,6 +275,7 @@ public class GoblinEnemy : MonoBehaviour
             }
             CheckLivesAmount();
             isBouncing = true;
+            soundManager.PlayBouncing();
             if(gameObject.activeSelf == false){return;}
             StartCoroutine(BouncingTimer());
             StopBouncing();

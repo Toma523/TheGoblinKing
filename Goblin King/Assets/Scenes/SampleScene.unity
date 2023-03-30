@@ -6649,17 +6649,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afd9cccdb7e1ce64c9d87b17bc9a1482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whoosh1: {fileID: 8300000, guid: 482611fe6bc559142a00be6e726b4862, type: 3}
-  whoosh2: {fileID: 8300000, guid: 4d4ef7516a431934681038a3dc391e55, type: 3}
-  hit1: {fileID: 8300000, guid: 1e3312d22540aa14597a1fb4739f2782, type: 3}
-  hit2: {fileID: 8300000, guid: d0f166575306db84091dc03fce0eff69, type: 3}
-  hit3: {fileID: 8300000, guid: 58a5d36d6b134014ea5623d9802082e2, type: 3}
-  hit4: {fileID: 8300000, guid: 1f53a5fc6bd934e46a5d8cfa8fd27b64, type: 3}
-  hit5: {fileID: 8300000, guid: e82879725b40ce444bca27d19a75f42c, type: 3}
-  hit6: {fileID: 8300000, guid: 2b019c6187fca1e48b47e28c891dc66c, type: 3}
-  hit7: {fileID: 8300000, guid: b883c27c88428884fb3a10dcc42b8b47, type: 3}
-  wall1: {fileID: 8300000, guid: 0e270ecb84908054a9d6f727dbea974e, type: 3}
-  wall2: {fileID: 8300000, guid: cd13436b01a4b5b4082c89e180d10dc3, type: 3}
+  whoosh1: {fileID: 8300000, guid: f3b74184f54c9374c8f80ee373c09efc, type: 3}
+  whoosh2: {fileID: 8300000, guid: d0442c807f402cc4880a3900a61dd9ad, type: 3}
+  hvWhoosh1: {fileID: 8300000, guid: 92e25875438721944a8489ed8d13971c, type: 3}
+  hvWhoosh2: {fileID: 8300000, guid: de08f216631d5364dbe78bd0caf62792, type: 3}
+  hit1: {fileID: 8300000, guid: 60de98779366f894eb350381672c006a, type: 3}
+  hit2: {fileID: 8300000, guid: 254472c2f1c133240a6308f6e5516f74, type: 3}
+  hit3: {fileID: 8300000, guid: ad4a3137546d5ec4a9a7cc2d64f010f5, type: 3}
+  hit4: {fileID: 8300000, guid: e14fc67e7d003c0438ae4638a1bf4065, type: 3}
+  hit5: {fileID: 8300000, guid: 51e8505180fb8e6498b97d752ac19cc3, type: 3}
+  hit6: {fileID: 8300000, guid: d2eb1dec226707d40a4b1bcc655b9aa7, type: 3}
+  hit7: {fileID: 8300000, guid: f3f2b471df4a8ca4391ffbf8039da574, type: 3}
+  hvHit1: {fileID: 8300000, guid: 6874861847c2a744ea70316e455d6742, type: 3}
+  hvHit2: {fileID: 8300000, guid: 4a739b8af420eca4c8850147b08a72cf, type: 3}
+  wall1: {fileID: 8300000, guid: bea834158f856ac4daffa5796e03a4f8, type: 3}
+  wall2: {fileID: 8300000, guid: 98e7419100d8b0b448a1c058afa490e7, type: 3}
+  frStunn1: {fileID: 8300000, guid: a715ddf00ff7f24469c72404e8df85e9, type: 3}
+  frStunn2: {fileID: 8300000, guid: e968c6ef8536cba4e98d5c8f4fdb9ccf, type: 3}
+  bouncing1: {fileID: 8300000, guid: e5ecc98ff40556543b77c8c2aa090822, type: 3}
+  bouncing2: {fileID: 8300000, guid: 72a9b2a2a3eaa584d9ba3a8e2166f0fd, type: 3}
+  bouncing3: {fileID: 8300000, guid: a37109c51cd477548ad1c882be3971d5, type: 3}
 --- !u!1 &1997429255
 GameObject:
   m_ObjectHideFlags: 0

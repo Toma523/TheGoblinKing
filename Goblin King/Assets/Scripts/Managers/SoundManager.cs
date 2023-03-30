@@ -8,6 +8,9 @@ public class SoundManager : MonoBehaviour
     [Header ("Whoosh")]
     [SerializeField] AudioClip whoosh1;
     [SerializeField] AudioClip whoosh2;
+    [Header ("Heavy Whoosh")]
+    [SerializeField] AudioClip hvWhoosh1;
+    [SerializeField] AudioClip hvWhoosh2;
     [Header ("Hit")]
     [SerializeField] AudioClip hit1;
     [SerializeField] AudioClip hit2;
@@ -16,9 +19,19 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip hit5;
     [SerializeField] AudioClip hit6;
     [SerializeField] AudioClip hit7;
+    [Header ("Heavy Hit")]
+    [SerializeField] AudioClip hvHit1;
+    [SerializeField] AudioClip hvHit2;
     [Header ("Hitting wall")]
     [SerializeField] AudioClip wall1;
     [SerializeField] AudioClip wall2;
+    [Header ("Friendly Stunn")]
+    [SerializeField] AudioClip frStunn1;
+    [SerializeField] AudioClip frStunn2;
+    [Header ("Bouncing")]
+    [SerializeField] AudioClip bouncing1;
+    [SerializeField] AudioClip bouncing2;
+    [SerializeField] AudioClip bouncing3;
     AudioSource audioSource;
 
     void Start()
@@ -35,7 +48,7 @@ public class SoundManager : MonoBehaviour
             audioSource.clip = whoosh2;
         }
         // Play clip
-        audioSource.pitch = 1.7f;
+        audioSource.pitch = 2f;
         audioSource.Play();
     }
 
@@ -64,7 +77,7 @@ public class SoundManager : MonoBehaviour
             audioSource.clip = hit7;
         }
         // Play clip
-        audioSource.pitch = 1f;
+        audioSource.pitch = 1.2f;
         audioSource.Play();
     }
 
@@ -78,6 +91,62 @@ public class SoundManager : MonoBehaviour
         }
         // Play clip
         audioSource.pitch = 1f;
+        audioSource.Play();
+    }
+
+    public void PlayHvHit(){
+        // Set random clip out of available
+        if(Random.Range(0,2) == 0){
+            audioSource.clip = hvHit1;
+        }
+        else{
+            audioSource.clip = hvHit2;
+        }
+        // Play clip
+        audioSource.pitch = 1.2f;
+        audioSource.Play();
+    }
+
+    public void PlayHvWhoosh(){
+        // Set random clip out of available
+        if(Random.Range(0,2) == 0){
+            audioSource.clip = hvWhoosh1;
+        }
+        else{
+            audioSource.clip = hvWhoosh2;
+        }
+        // Play clip
+        audioSource.pitch = 2f;
+        audioSource.Play();
+    }
+
+    public void PlayFrStunn(){
+        // Set random clip out of available
+        if(Random.Range(0,2) == 0){
+            audioSource.clip = frStunn1;
+        }
+        else{
+            audioSource.clip = frStunn2;
+        }
+        // Play clip
+        audioSource.pitch = 1.5f;
+        audioSource.Play();
+    }
+
+    public void PlayBouncing(){
+        // Set random clip out of available
+        int r = Random.Range(0,3);
+        if(r == 0){
+            audioSource.clip = bouncing1;
+        }
+        if(r == 1){
+            audioSource.clip = bouncing2;
+        }
+        if(r == 2){
+            audioSource.clip = bouncing3;
+        }
+        // Play clip
+        audioSource.pitch = 1.2f;
         audioSource.Play();
     }
 }

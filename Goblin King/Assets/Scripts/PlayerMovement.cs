@@ -223,6 +223,7 @@ public class PlayerMovement : MonoBehaviour
         isHvAttacking = true;
         myAttackHitbox.size = hvAttackHitboxSize;
         particles.Stop();
+        soundManager.PlayHvWhoosh();
         yield return new WaitForSeconds(hvAttackCooldown);
         isHvAttacking = false;
         isReadyToHvAttack = false;
@@ -289,7 +290,12 @@ public class PlayerMovement : MonoBehaviour
         if(myAttackHitbox.enabled == true)
         {
             if(other.tag == "Goblin" || other.tag == "RedGoblin"){
-                soundManager.PlayHit();
+                if(isHvAttacking){
+                    soundManager.PlayHvHit();
+                }
+                else{
+                    soundManager.PlayHit();
+                }
             }
             else if(other.tag == "Hor Wall" || other.tag == "Ver Wall" || other.tag == "Bounce Pad"){
                 soundManager.PlayHitWall();

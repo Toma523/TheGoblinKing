@@ -35,6 +35,7 @@ public class RedGoblin : MonoBehaviour
     PlayerMovement playerMovement;
     TrailRenderer myTrailRenderer;
     EnemySpin bodySpin;
+    SoundManager soundManager;
     bool isSmashed;
     bool isBouncing;
     int yPositionRevert = 1;
@@ -78,6 +79,7 @@ public class RedGoblin : MonoBehaviour
         saveDmg = damage;
         bodySpin = GetComponentInChildren<EnemySpin>();
         wavesManager = FindObjectOfType<WavesManager>();
+        soundManager = FindObjectOfType<SoundManager>();
 
         StartCoroutine(DontMoveOnSpawn());
     }
@@ -177,6 +179,7 @@ public class RedGoblin : MonoBehaviour
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Enemy") && !isSmashed)
         {
+            soundManager.PlayFrStunn();
             StartCoroutine(FriendlyStunn());
             Debug.Log("WTF bro!?");
         }
@@ -228,6 +231,7 @@ public class RedGoblin : MonoBehaviour
             }
             CheckLivesAmount();
             isBouncing = true;
+            soundManager.PlayBouncing();
             if(gameObject.activeSelf == false){return;}
             StartCoroutine(BouncingTimer());
             StopBouncing();
@@ -248,6 +252,7 @@ public class RedGoblin : MonoBehaviour
             }
             CheckLivesAmount();
             isBouncing = true;
+            soundManager.PlayBouncing();
             if(gameObject.activeSelf == false){return;}
             StartCoroutine(BouncingTimer());
             StopBouncing();
@@ -268,6 +273,7 @@ public class RedGoblin : MonoBehaviour
             }
             CheckLivesAmount();
             isBouncing = true;
+            soundManager.PlayBouncing();
             if(gameObject.activeSelf == false){return;}
             StartCoroutine(BouncingTimer());
             StopBouncing();
