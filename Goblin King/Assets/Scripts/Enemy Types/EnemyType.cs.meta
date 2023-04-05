@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: fe6ee698eab1c3a4da6ff0cabdc07f59
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - frStunn1: {instanceID: 0}
+  - frStunn2: {instanceID: 0}
+  - bouncing1: {instanceID: 0}
+  - bouncing2: {instanceID: 0}
+  - bouncing3: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,27 +1,36 @@
-using System;
+// using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GoblinEnemy : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 5f;
-    //[SerializeField] float gigaSpeed = 50f;
-    [SerializeField] float bounceSpeed = 16f;
-    [SerializeField] float smashedMultiplier = 1.2f;
-    [SerializeField] float hvSmashedMultiplier = 1.5f;
-    [SerializeField] float detectionDistance = 6f;
-    [SerializeField] int damage = 10;
-    [SerializeField] float jumpAttackMultiplier = 2f;
-    [SerializeField] float readyTime = 0.2f;
-    [SerializeField] float attackTime = 0.5f;
-    [SerializeField] float restTime = 0.2f;
-    [SerializeField] float attackCooldown = 2f;
-    [SerializeField] int lives = 15;
-    [SerializeField] float bouncingTime = 1f;
-    [SerializeField] float frStunnTime = 2f;
-    [SerializeField] float hvFSTMultiplier = 2f;
+    // [SerializeField] float moveSpeed = 5f;
+    // [SerializeField] float bounceSpeed = 16f;
+    // [SerializeField] float smashedMultiplier = 1.2f;
+    // [SerializeField] float hvSmashedMultiplier = 1.5f;
+    // [SerializeField] float detectionDistance = 6f;
+    // [SerializeField] int damage = 10;
+    // [SerializeField] float jumpAttackMultiplier = 2f;
+    // [SerializeField] float readyTime = 0.2f;
+    // [SerializeField] float attackTime = 0.5f;
+    // [SerializeField] float restTime = 0.2f;
+    // [SerializeField] float attackCooldown = 2f;
+    // [SerializeField] int lives = 15;
+    // [SerializeField] float bouncingTime = 1f;
+    // [SerializeField] float frStunnTime = 2f;
+    // [SerializeField] float hvFSTMultiplier = 2f;
+
     [SerializeField] ManaCrystal crystal;
+    [SerializeField] EnemyType enemyType;
+
+    //*************************** Sounds ****************************//
+    AudioClip frStunn1;
+    AudioClip frStunn2;
+    AudioClip bouncing1;
+    AudioClip bouncing2;
+    AudioClip bouncing3;
+    //***********************************************//
     GameObject player;
     Rigidbody2D myRigidbody;
     CircleCollider2D myBodyCollider;
@@ -37,6 +46,31 @@ public class GoblinEnemy : MonoBehaviour
     EnemySpin bodySpin;
     WavesManager wavesManager;
     SoundManager soundManager;
+    AudioSource audioSource;
+    //***********************************************//
+    float moveSpeed;
+    float bounceSpeed;
+    float smashedMultiplier;
+    float hvSmashedMultiplier;
+    float detectionDistance;
+    int damage;
+    float jumpAttackMultiplier;
+    float readyTime;
+    float attackTime;
+    float restTime;
+    float attackCooldown;
+    int lives;
+    float bouncingTime;
+    float frStunnTime;
+    float hvFSTMultiplier;
+    //***********************************************//
+    string Goblin_idle;
+    string Goblin_bouncing;
+    string Goblin_attack;
+    string Goblin_charge;
+    string Goblin_death;
+    string Goblin_stunn;
+    //***********************************************//
     bool isSmashed;
     bool isTouchingPlayer;
     bool isBouncing;
@@ -57,15 +91,37 @@ public class GoblinEnemy : MonoBehaviour
     int saveDmg;
     bool isBouncingFast;
 
-    const string Goblin_idle = "Goblin_idle";
-    const string Goblin_bouncing = "Goblin_bouncing";
-    const string Goblin_attack = "Goblin_attack";
-    const string Goblin_charge = "Goblin_charge";
-    const string Goblin_death = "Goblin_death";
-    const string Goblin_stunn = "Goblin_stunn";
-
     void Start()
     {
+        Goblin_idle = enemyType.Goblin_idle;
+        Goblin_bouncing = enemyType.Goblin_bouncing;
+        Goblin_attack = enemyType.Goblin_attack;
+        Goblin_charge = enemyType.Goblin_charge;
+        Goblin_death = enemyType.Goblin_death;
+        Goblin_stunn = enemyType.Goblin_stunn;
+        //***********************************************************//
+        moveSpeed = enemyType.moveSpeed;
+        bounceSpeed = enemyType.bounceSpeed;
+        smashedMultiplier = enemyType.smashedMultiplier;
+        hvSmashedMultiplier = enemyType.hvSmashedMultiplier;
+        detectionDistance = enemyType.detectionDistance;
+        damage = enemyType.damage;
+        jumpAttackMultiplier = enemyType.jumpAttackMultiplier;
+        readyTime = enemyType.readyTime;
+        attackTime = enemyType.attackTime;
+        restTime = enemyType.restTime;
+        attackCooldown = enemyType.attackCooldown;
+        lives = enemyType.lives;
+        bouncingTime = enemyType.bouncingTime;
+        frStunnTime = enemyType.frStunnTime;
+        hvFSTMultiplier = enemyType.hvFSTMultiplier;
+        //***********************************************************//
+        frStunn1 = enemyType.frStunn1;
+        frStunn2 = enemyType.frStunn2;
+        bouncing1 = enemyType.bouncing1;
+        bouncing2 = enemyType.bouncing2;
+        bouncing3 = enemyType.bouncing3;
+        //***********************************************************//
         myRigidbody = GetComponent<Rigidbody2D>();
         myBodyCollider = GetComponent<CircleCollider2D>();
         myTransform = GetComponent<Transform>();
@@ -81,6 +137,7 @@ public class GoblinEnemy : MonoBehaviour
         bodySpin = GetComponentInChildren<EnemySpin>();
         wavesManager = FindObjectOfType<WavesManager>();
         soundManager = FindObjectOfType<SoundManager>();
+        audioSource = GetComponent<AudioSource>();
 
         StartCoroutine(DontMoveOnSpawn());
     }
@@ -127,7 +184,6 @@ public class GoblinEnemy : MonoBehaviour
                 canAttack = false;
                 isFollowingPlayer = false;
                 StartCoroutine(Attack());
-                Debug.Log("Detected");
             }
         }
     }
@@ -159,13 +215,6 @@ public class GoblinEnemy : MonoBehaviour
         }
     }
 
-    public void ReturnVelocity()
-    {
-        //retVelocity = myRigidbody.velocity;
-        Debug.Log("jo");
-        playerMovement.BounceFromStunn(retVelocity);
-    }
-
     public int ReturnDamage()
     {
         return damage;
@@ -181,19 +230,12 @@ public class GoblinEnemy : MonoBehaviour
         //other.tag == "Goblin" || other.tag == "RegGoblin"
         if(other.gameObject.layer == LayerMask.NameToLayer("Enemy") && !isSmashed)
         {
-            soundManager.PlayFrStunn();
+            PlayFrStunn();
             StartCoroutine(FriendlyStunn());
-            Debug.Log("WTF bro!?");
-        }
-
-        if(other.tag == "Goblin" && isSmashed)
-        {
-            Debug.Log("Kabooom!");
         }
 
         if(other.tag == "Player" && !other.isTrigger)
         {
-            Debug.Log("Crunch!");
             isTouchingPlayer = true;
         }
 
@@ -233,7 +275,7 @@ public class GoblinEnemy : MonoBehaviour
             }
             CheckLivesAmount();
             isBouncing = true;
-            soundManager.PlayBouncing();
+            PlayBouncing();
             if(gameObject.activeSelf == false){return;}
             StartCoroutine(BouncingTimer());
             StopBouncing();
@@ -254,7 +296,7 @@ public class GoblinEnemy : MonoBehaviour
             }
             CheckLivesAmount();
             isBouncing = true;
-            soundManager.PlayBouncing();
+            PlayBouncing();
             if(gameObject.activeSelf == false){return;}
             StartCoroutine(BouncingTimer());
             StopBouncing();
@@ -275,7 +317,7 @@ public class GoblinEnemy : MonoBehaviour
             }
             CheckLivesAmount();
             isBouncing = true;
-            soundManager.PlayBouncing();
+            PlayBouncing();
             if(gameObject.activeSelf == false){return;}
             StartCoroutine(BouncingTimer());
             StopBouncing();
@@ -283,7 +325,6 @@ public class GoblinEnemy : MonoBehaviour
             yPositionRevert = -1;
             xPositionRevert = -1;
             velocity = new Vector2(myRigidbody.velocity.x * xPositionRevert, myRigidbody.velocity.y * yPositionRevert).normalized;
-            Debug.Log("Dunk!");
         }
     }
 
@@ -315,7 +356,6 @@ public class GoblinEnemy : MonoBehaviour
                 canStartTimer = false;
                 isHit = false;
                 yield return new WaitForSeconds(bouncingTime);
-                Debug.Log("koniec");
                 canStopBouncing = true;
             }
         }
@@ -369,7 +409,6 @@ public class GoblinEnemy : MonoBehaviour
             {
                 myAnimator.Play(Goblin_bouncing);
                 isDoingSmashAnimation = true;
-                Debug.Log("Bouncing");
             }
         }
         else
@@ -380,13 +419,13 @@ public class GoblinEnemy : MonoBehaviour
             {
                 myAnimator.Play(Goblin_idle);
                 isDoingSmashAnimation = false;
-                Debug.Log("Walking");
             }
         }
     }
 
     void Move()
     {
+        Debug.Log(moveSpeed);
         if(isSmashed)
         {
             canDoSmashAnimation = true;
@@ -429,5 +468,39 @@ public class GoblinEnemy : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(0.1f);
         myBodyCollider.isTrigger = false;
+    }
+
+    //****************************** Sounds ******************************//
+
+    void PlayBouncing(){
+        // Set random clip out of available
+        
+        int r = Random.Range(0,3);
+        if(r == 0){
+            audioSource.clip = bouncing1;
+        }
+        if(r == 1){
+            audioSource.clip = bouncing2;
+        }
+        if(r == 2){
+            audioSource.clip = bouncing3;
+        }
+        // Play clip
+        audioSource.pitch = 1f;
+        audioSource.Play();
+    }
+
+    public void PlayFrStunn(){
+        // Set random clip out of available
+        
+        if(Random.Range(0,2) == 0){
+            audioSource.clip = frStunn1;
+        }
+        else{
+            audioSource.clip = frStunn2;
+        }
+        // Play clip
+        audioSource.pitch = 1f;
+        audioSource.Play();
     }
 }

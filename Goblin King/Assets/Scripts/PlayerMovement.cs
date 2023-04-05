@@ -14,14 +14,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float dashCooldown = 0.5f;
     [SerializeField] float dmgProtTime = 0.5f;
     [SerializeField] Animator spriteAnimator;
-    [SerializeField] float stunnTime = 2f;
-    [SerializeField] float inviTime = 0.5f;
-    [SerializeField] float stunnForce;
-    [SerializeField] float safeStunnTime = 0.5f;
     [SerializeField] int damageGiven = 2;
     [SerializeField] int hvDamageGiven = 3;
     [SerializeField] PhysicsMaterial2D normalMaterial;
-    [SerializeField] PhysicsMaterial2D bouncingMaterial;
     [SerializeField] float hvChargeAmount = 3f;
     [SerializeField] float hvAttackCooldown = 1f;
     [SerializeField] int neededManaAmount = 8;
@@ -64,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
     bool pressedAttack;
     bool isGamePaused;
     bool isNewWaveProtected;
+    bool isDashing;
+    bool canPlayChargeSound = true;
 
     void Start() 
     {
@@ -155,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if(Input.GetKey(KeyCode.Mouse1) || isPressingRTrigger)
             {
-                if(!isReadyToAttack)
+                if(!isReadyToAttack && !isDashing)
                 {
                     hvChargeAmount = saveCharge;
                     isReadyToHvAttack = false;
@@ -171,153 +168,12 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    void OnDash(InputValue value)
+    //************************* Managing Taken Dmg ************************//
+
+    IEnumerator DashDmgProtection()
     {
-        if(canDash && !isStunned)
-        {
-            StartCoroutine(Dash());
-        }
-    }
-
-    void OnChargeHvAttack(InputValue value)
-    {
-        isPressingRTrigger = true;
-    }
-
-    void ChargeTimer()
-    {
-        if(canStartChargeTimer)
-        {
-            spriteAnimator.SetBool("isHvCharging", true);
-            hvChargeAmount -= 1f * Time.deltaTime;
-
-            if(hvChargeAmount <= 0)
-            {
-                isReadyToHvAttack = true;
-            }
-        }
-    }
-    
-    void OnUseHvAttack(InputValue value)
-    {
-        isPressingRTrigger = false;
-        canStartChargeTimer = false;
-        hvChargeAmount = saveCharge;
-        spriteAnimator.SetBool("isHvCharging", false);
-
-        if(isReadyToHvAttack)
-        {
-            spriteAnimator.SetBool("isHvAttacking", true);
-            isReadyToAttack = false;
-            hasEnoughMana = false;
-            manaAmount -= neededManaAmount;
-            StartCoroutine(AttackTimer());
-            StartCoroutine(HvAttack());
-            Debug.Log("Heavy Attack");
-        }
-    }
-
-    IEnumerator HvAttack()
-    {
-        pressedAttack = false;
-        isHvAttacking = true;
-        myAttackHitbox.size = hvAttackHitboxSize;
-        particles.Stop();
-        soundManager.PlayHvWhoosh();
-        yield return new WaitForSeconds(hvAttackCooldown);
-        isHvAttacking = false;
-        isReadyToHvAttack = false;
-    }
-
-    public bool ReturnHvAttack()
-    {
-        return isReadyToHvAttack;
-    }
-
-    public void DeathAnimation()
-    {
-        spriteAnimator.SetTrigger("death");
-        moveSpeed = 1f;
-    }
-
-    public void GameOver()
-    {
-        Debug.Log("Death :(");
-        gameObject.SetActive(false);
-    }
-
-    public void PlayerStunn()
-    {
-        if(isDmgProtected){return;}
-        StartCoroutine(Stunn());
-    }
-
-    IEnumerator Stunn()
-    {
-        isStunned = true;
-        moveSpeed = 0f;
-        hitBy.SendMessage("ReturnVelocity");
-        myRigidBody.sharedMaterial = bouncingMaterial;
-
-        yield return new WaitForSeconds(safeStunnTime);
-
-        playerLives.isStunned = true;
-
-        yield return new WaitForSeconds(stunnTime);
-
-        isStunned = false;
-        moveSpeed = saveMoveSpeed;
-        myRigidBody.velocity = myRigidBody.velocity / stunnForce * moveSpeed;
-
-        yield return new WaitForSeconds(inviTime);
-
-        playerLives.isStunned = false;
-        myRigidBody.sharedMaterial = normalMaterial;
-    }
-
-    public void SetHitBy(GameObject enemy)
-    {
-        hitBy = enemy;
-    }
-
-    public void BounceFromStunn(Vector2 otherVelocity)
-    {
-        myRigidBody.velocity = otherVelocity.normalized * stunnForce;
-    }
-
-    void OnTriggerEnter2D(Collider2D other) 
-    {
-        if(myAttackHitbox.enabled == true)
-        {
-            if(other.tag == "Goblin" || other.tag == "RedGoblin"){
-                if(isHvAttacking){
-                    soundManager.PlayHvHit();
-                }
-                else{
-                    soundManager.PlayHit();
-                }
-            }
-            else if(other.tag == "Hor Wall" || other.tag == "Ver Wall" || other.tag == "Bounce Pad"){
-                soundManager.PlayHitWall();
-            }
-        }
-    }
-
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            if(!isDmgProtected && !isNewWaveProtected)
-            {
-                hitBy = other.gameObject;
-                playerLives.ProcessDamageTaken(other.gameObject);
-            }
-        }
-    }
-
-    public void ChangeWaveProtection()
-    {
-        isNewWaveProtected = !isNewWaveProtected;
+        yield return new WaitForSeconds(dmgProtTime);
+        isDmgProtected = false;
     }
 
     public void CheckDmgProtection(GameObject enemy)
@@ -327,6 +183,11 @@ public class PlayerMovement : MonoBehaviour
             hitBy = enemy.gameObject;
             playerLives.ProcessDamageTaken(enemy.gameObject);
         }
+    }
+
+    public void ChangeWaveProtection()
+    {
+        isNewWaveProtected = !isNewWaveProtected;
     }
 
     public void ManageDmgAnimations()
@@ -341,72 +202,29 @@ public class PlayerMovement : MonoBehaviour
             canStartDmgAnimation = false;
         }
     }
-
-    void OnMove(InputValue value)
+    
+    public void StopDmgActions()
     {
-        if(moveSpeed == 0f){return;}
-        
-        if(canMove)
-        {
-            myRigidBody.velocity = value.Get<Vector2>() * moveSpeed;
-            lastMove = myRigidBody.velocity;
-        }
+        //spriteAnimator.SetBool("isProtectionOff", true);
+        spriteAnimator.SetBool("isDamaged", false);
+        canStartDmgAnimation = true;
+        isReadyToAttack = true;
     }
 
-    void OnChangeInput(InputValue value)
+    public void DeathAnimation()
     {
-        isUsingMouse = !isUsingMouse;
+        spriteAnimator.SetTrigger("death");
+        moveSpeed = 1f;
     }
 
-    IEnumerator Dash()
+    public void GameOver()
     {
-        myTrailRenderer.emitting = true;
-        isDmgProtected = true;
-        canDash = false;
-        canMove = false;
-        myRigidBody.velocity = lastMove * dashForce;
-        yield return new WaitForSeconds(dashTime);
-        StartCoroutine(DashDmgProtection());
-        canMove = true;
-        myRigidBody.velocity = lastMove;
-        myTrailRenderer.emitting = false;
-        yield return new WaitForSeconds(dashCooldown);
-        canDash = true;
+        Debug.Log("Death :(");
+        gameObject.SetActive(false);
     }
 
-    IEnumerator DashDmgProtection()
-    {
-        yield return new WaitForSeconds(dmgProtTime);
-        isDmgProtected = false;
-    }
-
-    public int ReturnDamageGiven()
-    {
-        if(isReadyToHvAttack)
-        {
-            return hvDamageGiven;
-        }
-        else
-        {
-            return damageGiven;
-        }
-    }
-
-    void OnAttack(InputValue value)
-    {
-        if(isReadyToAttack)
-        {
-            StartCoroutine(Attack());
-        }
-        else
-        {
-            if(isAttacking)
-            {
-                pressedAttack = true;
-            }
-        }
-    }
-
+    //************************* Managing Given Dmg ************************//
+    
     IEnumerator AttackTimer()
     {
         yield return new WaitForSeconds(attackCooldown);
@@ -445,12 +263,72 @@ public class PlayerMovement : MonoBehaviour
         myAttackHitbox.size = attackHitboxSize;
     }
 
-    public void StopDmgActions()
+    void ChargeTimer()
     {
-        //spriteAnimator.SetBool("isProtectionOff", true);
-        spriteAnimator.SetBool("isDamaged", false);
-        canStartDmgAnimation = true;
+        if(canStartChargeTimer)
+        {
+            spriteAnimator.SetBool("isHvCharging", true);
+            hvChargeAmount -= 1f * Time.deltaTime;
+            PlayChargeSound();
+
+            if(hvChargeAmount <= 0)
+            {
+                isReadyToHvAttack = true;
+            }
+        }
+    }
+
+    IEnumerator HvAttack()
+    {
+        yield return new WaitUntil(() => !isDashing);
+        pressedAttack = false;
+        isHvAttacking = true;
+        myAttackHitbox.size = hvAttackHitboxSize;
+        particles.Stop();
+        soundManager.PlayHvWhoosh();
+        yield return new WaitForSeconds(hvAttackCooldown);
+        isHvAttacking = false;
+        isReadyToHvAttack = false;
+    }
+
+    public bool ReturnHvAttack()
+    {
+        return isReadyToHvAttack;
+    }
+    
+    public int ReturnDamageGiven()
+    {
+        if(isReadyToHvAttack)
+        {
+            return hvDamageGiven;
+        }
+        else
+        {
+            return damageGiven;
+        }
+    }
+
+    //************************* Managing Movement ************************//
+
+    IEnumerator Dash()
+    {
+        myTrailRenderer.emitting = true;
+        isDmgProtected = true;
+        canDash = false;
+        canMove = false;
+        myRigidBody.velocity = lastMove * dashForce;
+        isDashing = true;
+        isReadyToAttack = false;
+        soundManager.PlayDash();
+        yield return new WaitForSeconds(dashTime);
+        StartCoroutine(DashDmgProtection());
+        isDashing = false;
         isReadyToAttack = true;
+        canMove = true;
+        myRigidBody.velocity = lastMove;
+        myTrailRenderer.emitting = false;
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
     }
 
     public void CollectCrystal(GameObject crystal, int addAmount)
@@ -491,6 +369,107 @@ public class PlayerMovement : MonoBehaviour
         particles.Play();
     }
 
+    //************************* Sounds ************************//
+
+    void PlayChargeSound(){
+        // Don't repeat charge sound
+        if(canPlayChargeSound){
+            canPlayChargeSound = false;
+            soundManager.PlayCharge();
+        }
+    }
+
+    //************************* On Input Actions ************************//
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            if(!isDmgProtected && !isNewWaveProtected)
+            {
+                hitBy = other.gameObject;
+                playerLives.ProcessDamageTaken(other.gameObject);
+            }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other) 
+    {
+        if(myAttackHitbox.enabled == true)
+        {
+            if(other.tag == "Goblin" || other.tag == "RedGoblin"){
+                if(isHvAttacking){
+                    soundManager.PlayHvHit();
+                }
+                else{
+                    soundManager.PlayHit();
+                }
+            }
+            else if(other.tag == "Hor Wall" || other.tag == "Ver Wall" || other.tag == "Bounce Pad"){
+                soundManager.PlayHitWall();
+            }
+        }
+    }
+
+    void OnAttack(InputValue value)
+    {
+        if(isReadyToAttack)
+        {
+            StartCoroutine(Attack());
+        }
+        else
+        {
+            if(isAttacking)
+            {
+                pressedAttack = true;
+            }
+        }
+    }
+
+    void OnChargeHvAttack(InputValue value)
+    {
+        isPressingRTrigger = true;
+    }
+
+    void OnReleaseHvAttack(InputValue value)
+    {
+        isPressingRTrigger = false;
+        canStartChargeTimer = false;
+        hvChargeAmount = saveCharge;
+        spriteAnimator.SetBool("isHvCharging", false);
+
+        if(isReadyToHvAttack)
+        {
+            spriteAnimator.SetBool("isHvAttacking", true);
+            isReadyToAttack = false;
+            hasEnoughMana = false;
+            canPlayChargeSound = true;
+            manaAmount -= neededManaAmount;
+            StartCoroutine(AttackTimer());
+            StartCoroutine(HvAttack());
+            Debug.Log("Heavy Attack");
+        }
+    }
+
+    void OnMove(InputValue value)
+    {
+        if(moveSpeed == 0f){return;}
+        
+        if(canMove)
+        {
+            myRigidBody.velocity = value.Get<Vector2>() * moveSpeed;
+            lastMove = myRigidBody.velocity;
+        }
+    }
+
+    void OnDash(InputValue value)
+    {
+        if(canDash && !isStunned)
+        {
+            StartCoroutine(Dash());
+        }
+    }
+
     void OnPause(InputValue value)
     {
         if(isGamePaused)
@@ -506,4 +485,57 @@ public class PlayerMovement : MonoBehaviour
             gameManager.PauseGame();
         }
     }
+
+    void OnChangeInput(InputValue value)
+    {
+        isUsingMouse = !isUsingMouse;
+    }
+
+    //************************* Unused ************************//
+
+    // public void PlayerStunn()
+    // {
+    //     if(isDmgProtected){return;}
+    //     StartCoroutine(Stunn());
+    // }
+
+    // public void BounceFromStunn(Vector2 otherVelocity)
+    // {
+    //     myRigidBody.velocity = otherVelocity.normalized * stunnForce;
+    // }
+
+    // IEnumerator Stunn()
+    // {
+    //     isStunned = true;
+    //     moveSpeed = 0f;
+    //     hitBy.SendMessage("ReturnVelocity");
+    //     myRigidBody.sharedMaterial = bouncingMaterial;
+
+    //     yield return new WaitForSeconds(safeStunnTime);
+
+    //     playerLives.isStunned = true;
+
+    //     yield return new WaitForSeconds(stunnTime);
+
+    //     isStunned = false;
+    //     moveSpeed = saveMoveSpeed;
+    //     myRigidBody.velocity = myRigidBody.velocity / stunnForce * moveSpeed;
+
+    //     yield return new WaitForSeconds(inviTime);
+
+    //     playerLives.isStunned = false;
+    //     myRigidBody.sharedMaterial = normalMaterial;
+    // }
+
+    // public void SetHitBy(GameObject enemy)
+    // {
+    //     hitBy = enemy;
+    // }
+
+    // [SerializeField] PhysicsMaterial2D bouncingMaterial;
+
+    // [SerializeField] float stunnTime = 2f;
+    // [SerializeField] float inviTime = 0.5f;
+    // [SerializeField] float stunnForce;
+    // [SerializeField] float safeStunnTime = 0.5f;
 }

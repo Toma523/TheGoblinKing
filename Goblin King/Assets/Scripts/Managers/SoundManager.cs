@@ -33,10 +33,14 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip bouncing2;
     [SerializeField] AudioClip bouncing3;
     AudioSource audioSource;
+    [Header ("Dash")]
+    [SerializeField] AudioClip dash1;
+    [Header ("Charge")]
+    [SerializeField] AudioClip charge1;
 
     void Start()
     {
-        audioSource = FindObjectOfType<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void PlayWhoosh(){
@@ -120,33 +124,17 @@ public class SoundManager : MonoBehaviour
         audioSource.Play();
     }
 
-    public void PlayFrStunn(){
-        // Set random clip out of available
-        if(Random.Range(0,2) == 0){
-            audioSource.clip = frStunn1;
-        }
-        else{
-            audioSource.clip = frStunn2;
-        }
+    public void PlayDash(){
         // Play clip
-        audioSource.pitch = 1.5f;
+        audioSource.clip = dash1;
+        audioSource.pitch = 1f;
         audioSource.Play();
     }
 
-    public void PlayBouncing(){
-        // Set random clip out of available
-        int r = Random.Range(0,3);
-        if(r == 0){
-            audioSource.clip = bouncing1;
-        }
-        if(r == 1){
-            audioSource.clip = bouncing2;
-        }
-        if(r == 2){
-            audioSource.clip = bouncing3;
-        }
+    public void PlayCharge(){
         // Play clip
-        audioSource.pitch = 1.2f;
+        audioSource.clip = charge1;
+        audioSource.pitch = 2f;
         audioSource.Play();
     }
 }

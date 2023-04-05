@@ -1,4 +1,4 @@
-using System;
+// using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +22,13 @@ public class RedGoblin : MonoBehaviour
     [SerializeField] float frStunnTime = 2f;
     [SerializeField] float hvFSTMultiplier = 2f;
     [SerializeField] ManaCrystal crystal;
+    [Header ("Friendly Stunn")]
+    [SerializeField] AudioClip frStunn1;
+    [SerializeField] AudioClip frStunn2;
+    [Header ("Bouncing")]
+    [SerializeField] AudioClip bouncing1;
+    [SerializeField] AudioClip bouncing2;
+    [SerializeField] AudioClip bouncing3;
     GameObject player;
     Rigidbody2D myRigidbody;
     CircleCollider2D myBodyCollider;
@@ -36,6 +43,7 @@ public class RedGoblin : MonoBehaviour
     TrailRenderer myTrailRenderer;
     EnemySpin bodySpin;
     SoundManager soundManager;
+    AudioSource audioSource;
     bool isSmashed;
     bool isBouncing;
     int yPositionRevert = 1;
@@ -80,6 +88,7 @@ public class RedGoblin : MonoBehaviour
         bodySpin = GetComponentInChildren<EnemySpin>();
         wavesManager = FindObjectOfType<WavesManager>();
         soundManager = FindObjectOfType<SoundManager>();
+        audioSource = GetComponent<AudioSource>();
 
         StartCoroutine(DontMoveOnSpawn());
     }
@@ -162,7 +171,7 @@ public class RedGoblin : MonoBehaviour
     {
         //retVelocity = myRigidbody.velocity;
         Debug.Log("jo");
-        playerMovement.BounceFromStunn(retVelocity);
+        //playerMovement.BounceFromStunn(retVelocity);
     }
 
     public int ReturnDamage()
@@ -179,7 +188,7 @@ public class RedGoblin : MonoBehaviour
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Enemy") && !isSmashed)
         {
-            soundManager.PlayFrStunn();
+            PlayFrStunn();
             StartCoroutine(FriendlyStunn());
             Debug.Log("WTF bro!?");
         }
@@ -231,7 +240,7 @@ public class RedGoblin : MonoBehaviour
             }
             CheckLivesAmount();
             isBouncing = true;
-            soundManager.PlayBouncing();
+            PlayBouncing();
             if(gameObject.activeSelf == false){return;}
             StartCoroutine(BouncingTimer());
             StopBouncing();
@@ -252,7 +261,7 @@ public class RedGoblin : MonoBehaviour
             }
             CheckLivesAmount();
             isBouncing = true;
-            soundManager.PlayBouncing();
+            PlayBouncing();
             if(gameObject.activeSelf == false){return;}
             StartCoroutine(BouncingTimer());
             StopBouncing();
@@ -273,7 +282,7 @@ public class RedGoblin : MonoBehaviour
             }
             CheckLivesAmount();
             isBouncing = true;
-            soundManager.PlayBouncing();
+            PlayBouncing();
             if(gameObject.activeSelf == false){return;}
             StartCoroutine(BouncingTimer());
             StopBouncing();
@@ -428,4 +437,37 @@ public class RedGoblin : MonoBehaviour
         myBodyCollider.isTrigger = false;
     }
 
+    //****************************** Sounds ******************************//
+
+    void PlayBouncing(){
+        // Set random clip out of available
+        
+        int r = Random.Range(0,3);
+        if(r == 0){
+            audioSource.clip = bouncing1;
+        }
+        if(r == 1){
+            audioSource.clip = bouncing2;
+        }
+        if(r == 2){
+            audioSource.clip = bouncing3;
+        }
+        // Play clip
+        audioSource.pitch = 1f;
+        audioSource.Play();
+    }
+
+    public void PlayFrStunn(){
+        // Set random clip out of available
+        
+        if(Random.Range(0,2) == 0){
+            audioSource.clip = frStunn1;
+        }
+        else{
+            audioSource.clip = frStunn2;
+        }
+        // Play clip
+        audioSource.pitch = 1f;
+        audioSource.Play();
+    }
 }

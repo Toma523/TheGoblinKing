@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "UseHvAttack",
+                    "name": "ReleaseHvAttack",
                     "type": "Button",
                     "id": "c7f27db7-af82-4ca0-bab5-6727ed19e446",
                     "expectedControlType": "Button",
@@ -273,7 +273,7 @@
                     "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "",
-                    "action": "UseHvAttack",
+                    "action": "ReleaseHvAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -284,7 +284,7 @@
                     "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "",
-                    "action": "UseHvAttack",
+                    "action": "ReleaseHvAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe6ee698eab1c3a4da6ff0cabdc07f59, type: 3}
+  m_Name: GreenGoblin
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+  bounceSpeed: 8
+  smashedMultiplier: 1.3
+  hvSmashedMultiplier: 1.7
+  detectionDistance: 3
+  damage: 1
+  jumpAttackMultiplier: 3.5
+  readyTime: 0.4
+  attackTime: 0.5
+  restTime: 0
+  attackCooldown: 2
+  lives: 5
+  bouncingTime: 2
+  frStunnTime: 2
+  hvFSTMultiplier: 2
+  frStunn1: {fileID: 8300000, guid: 9f054462877a188428022ead9cddf2bb, type: 3}
+  frStunn2: {fileID: 8300000, guid: b8966eb52a2d8194d80b438736483175, type: 3}
+  bouncing1: {fileID: 8300000, guid: e5ecc98ff40556543b77c8c2aa090822, type: 3}
+  bouncing2: {fileID: 8300000, guid: a37109c51cd477548ad1c882be3971d5, type: 3}
+  bouncing3: {fileID: 8300000, guid: 72a9b2a2a3eaa584d9ba3a8e2166f0fd, type: 3}
