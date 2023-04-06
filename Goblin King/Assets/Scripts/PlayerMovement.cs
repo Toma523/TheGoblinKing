@@ -383,7 +383,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if(other.gameObject.tag == "Goblin")
         {
             if(!isDmgProtected && !isNewWaveProtected)
             {
@@ -397,7 +397,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(myAttackHitbox.enabled == true)
         {
-            if(other.tag == "Goblin" || other.tag == "RedGoblin"){
+            if(other.tag == "Goblin"){
                 if(isHvAttacking){
                     soundManager.PlayHvHit();
                 }
@@ -437,13 +437,13 @@ public class PlayerMovement : MonoBehaviour
         canStartChargeTimer = false;
         hvChargeAmount = saveCharge;
         spriteAnimator.SetBool("isHvCharging", false);
+        canPlayChargeSound = true;
 
         if(isReadyToHvAttack)
         {
             spriteAnimator.SetBool("isHvAttacking", true);
             isReadyToAttack = false;
             hasEnoughMana = false;
-            canPlayChargeSound = true;
             manaAmount -= neededManaAmount;
             StartCoroutine(AttackTimer());
             StartCoroutine(HvAttack());

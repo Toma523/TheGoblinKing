@@ -82,6 +82,7 @@ public class SoundManager : MonoBehaviour
         }
         // Play clip
         audioSource.pitch = 1.2f;
+        audioSource.volume = 0.8f;
         audioSource.Play();
     }
 
@@ -94,7 +95,7 @@ public class SoundManager : MonoBehaviour
             audioSource.clip = wall2;
         }
         // Play clip
-        audioSource.pitch = 1f;
+        audioSource.pitch = 0.8f;
         audioSource.Play();
     }
 
@@ -108,6 +109,7 @@ public class SoundManager : MonoBehaviour
         }
         // Play clip
         audioSource.pitch = 1.2f;
+        audioSource.volume = 0.8f;
         audioSource.Play();
     }
 
@@ -134,7 +136,7 @@ public class SoundManager : MonoBehaviour
     public void PlayCharge(){
         // Play clip
         audioSource.clip = charge1;
-        audioSource.pitch = 2f;
+        audioSource.pitch = 2.5f;
         audioSource.Play();
     }
 }

@@ -5,6 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Enemy Type", menuName = "Enemy Type")]
 public class EnemyType : ScriptableObject
 {
+    //************************ Enemy type index (0-GreenGoblin, 1-RedGoblin, 2-MetalGoblin) ************************//
+
+    public int enemyTypeIndex = 0;
+
+    //************************ Stats ************************//
+
+    [Header ("Stats")]
     public float moveSpeed = 2f;
     public float bounceSpeed = 8f;
     public float smashedMultiplier = 1.3f;

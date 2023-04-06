@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe6ee698eab1c3a4da6ff0cabdc07f59, type: 3}
+  m_Name: 2_MetalGoblin
+  m_EditorClassIdentifier: 
+  enemyTypeIndex: 0
+  moveSpeed: 2
+  bounceSpeed: 8
+  smashedMultiplier: 1.5
+  hvSmashedMultiplier: 1.8
+  detectionDistance: 3
+  damage: 1
+  jumpAttackMultiplier: 3.5
+  readyTime: 0.4
+  attackTime: 0.5
+  restTime: 0
+  attackCooldown: 2
+  lives: 5
+  bouncingTime: 2
+  frStunnTime: 2
+  hvFSTMultiplier: 2
+  frStunn1: {fileID: 0}
+  frStunn2: {fileID: 0}
+  bouncing1: {fileID: 0}
+  bouncing2: {fileID: 0}
+  bouncing3: {fileID: 0}
+  Goblin_idle: Goblin_idle
+  Goblin_bouncing: Goblin_bouncing
+  Goblin_attack: Goblin_attack
+  Goblin_charge: Goblin_charge
+  Goblin_death: Goblin_death
+  Goblin_stunn: Goblin_stunn

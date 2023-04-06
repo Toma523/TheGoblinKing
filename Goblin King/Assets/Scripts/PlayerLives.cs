@@ -13,12 +13,14 @@ public class PlayerLives : MonoBehaviour
     GoblinEnemy goblinEnemy;
     RedGoblin redGoblin;
     PlayerMovement playerMovement;
+    EnemyType enemyType;
     public bool isStunned;
     bool canDamagePlayer;
     float saveDmgProtTime;
     bool isProtected;
     int enemyDmg;
     int livesListIndex;
+    int enemyTypeIndex;
 
     void Start() 
     {
@@ -65,16 +67,8 @@ public class PlayerLives : MonoBehaviour
     }
 
     public void ProcessDamageTaken(GameObject enemy)
-    {   
-        if(enemy.tag == "Goblin")
-        {
-            enemyDmg = enemy.GetComponent<GoblinEnemy>().ReturnDamage();
-        }
-
-        if(enemy.tag == "RedGoblin")
-        {
-            enemyDmg = enemy.GetComponent<RedGoblin>().ReturnDamage();
-        }
+    {
+        enemyDmg = enemy.GetComponent<GoblinEnemy>().ReturnDamage();
 
         if(!isProtected)
         {

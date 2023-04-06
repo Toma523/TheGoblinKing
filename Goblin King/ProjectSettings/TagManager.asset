@@ -10,7 +10,6 @@ TagManager:
   - Bounce Pad
   - Block
   - Detector
-  - RedGoblin
   - TankGoblin
   - Crystal
   layers:

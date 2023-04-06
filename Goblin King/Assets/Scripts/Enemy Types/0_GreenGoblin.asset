@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe6ee698eab1c3a4da6ff0cabdc07f59, type: 3}
-  m_Name: GreenGoblin
+  m_Name: 0_GreenGoblin
   m_EditorClassIdentifier: 
+  enemyTypeIndex: 0
   moveSpeed: 2
   bounceSpeed: 8
-  smashedMultiplier: 1.3
-  hvSmashedMultiplier: 1.7
+  smashedMultiplier: 1.5
+  hvSmashedMultiplier: 1.8
   detectionDistance: 3
   damage: 1
   jumpAttackMultiplier: 3.5
@@ -32,3 +33,9 @@ MonoBehaviour:
   bouncing1: {fileID: 8300000, guid: e5ecc98ff40556543b77c8c2aa090822, type: 3}
   bouncing2: {fileID: 8300000, guid: a37109c51cd477548ad1c882be3971d5, type: 3}
   bouncing3: {fileID: 8300000, guid: 72a9b2a2a3eaa584d9ba3a8e2166f0fd, type: 3}
+  Goblin_idle: Goblin_idle
+  Goblin_bouncing: Goblin_bouncing
+  Goblin_attack: Goblin_attack
+  Goblin_charge: Goblin_charge
+  Goblin_death: Goblin_death
+  Goblin_stunn: Goblin_stunn

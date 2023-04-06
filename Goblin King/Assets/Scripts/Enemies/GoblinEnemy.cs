@@ -48,6 +48,8 @@ public class GoblinEnemy : MonoBehaviour
     SoundManager soundManager;
     AudioSource audioSource;
     //***********************************************//
+    int enemyTypeIndex;
+    //***********************************************//
     float moveSpeed;
     float bounceSpeed;
     float smashedMultiplier;
@@ -93,6 +95,8 @@ public class GoblinEnemy : MonoBehaviour
 
     void Start()
     {
+        enemyTypeIndex = enemyType.enemyTypeIndex;
+        //***********************************************************//
         Goblin_idle = enemyType.Goblin_idle;
         Goblin_bouncing = enemyType.Goblin_bouncing;
         Goblin_attack = enemyType.Goblin_attack;
@@ -142,14 +146,6 @@ public class GoblinEnemy : MonoBehaviour
         StartCoroutine(DontMoveOnSpawn());
     }
 
-    IEnumerator DontMoveOnSpawn(){
-        canMove = false;
-        myBodyCollider.enabled = false;
-        yield return new WaitForSeconds(wavesManager.spawningTime);
-        canMove = true;
-        myBodyCollider.enabled = true;
-    }
-
     void Update()
     {
         if(isFollowingPlayer)
@@ -170,6 +166,18 @@ public class GoblinEnemy : MonoBehaviour
     void FixedUpdate() 
     {
         Move();
+    }
+
+    IEnumerator DontMoveOnSpawn(){
+        canMove = false;
+        myBodyCollider.enabled = false;
+        yield return new WaitForSeconds(wavesManager.spawningTime);
+        canMove = true;
+        myBodyCollider.enabled = true;
+    }
+
+    public int ReturnEnemyTypeIndex(){
+        return enemyTypeIndex;
     }
 
     void CheckDistance()
@@ -228,7 +236,7 @@ public class GoblinEnemy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other) 
     {
         //other.tag == "Goblin" || other.tag == "RegGoblin"
-        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy") && !isSmashed)
+        if(other.tag == "Goblin" && !isSmashed)
         {
             PlayFrStunn();
             StartCoroutine(FriendlyStunn());
@@ -487,6 +495,7 @@ public class GoblinEnemy : MonoBehaviour
         }
         // Play clip
         audioSource.pitch = 1f;
+        audioSource.volume = 0.5f;
         audioSource.Play();
     }
 
@@ -501,6 +510,7 @@ public class GoblinEnemy : MonoBehaviour
         }
         // Play clip
         audioSource.pitch = 1f;
+        audioSource.volume = 0.5f;
         audioSource.Play();
     }
 }

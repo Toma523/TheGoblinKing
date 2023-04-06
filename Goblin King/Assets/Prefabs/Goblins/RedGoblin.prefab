@@ -157,7 +157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6058959068014612877, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
       propertyPath: m_TagString
-      value: RedGoblin
+      value: Goblin
       objectReference: {fileID: 0}
     - target: {fileID: 6058959068540302103, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
       propertyPath: m_Sprite
