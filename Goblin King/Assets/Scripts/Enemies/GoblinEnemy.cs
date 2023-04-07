@@ -5,22 +5,6 @@ using UnityEngine;
 
 public class GoblinEnemy : MonoBehaviour
 {
-    // [SerializeField] float moveSpeed = 5f;
-    // [SerializeField] float bounceSpeed = 16f;
-    // [SerializeField] float smashedMultiplier = 1.2f;
-    // [SerializeField] float hvSmashedMultiplier = 1.5f;
-    // [SerializeField] float detectionDistance = 6f;
-    // [SerializeField] int damage = 10;
-    // [SerializeField] float jumpAttackMultiplier = 2f;
-    // [SerializeField] float readyTime = 0.2f;
-    // [SerializeField] float attackTime = 0.5f;
-    // [SerializeField] float restTime = 0.2f;
-    // [SerializeField] float attackCooldown = 2f;
-    // [SerializeField] int lives = 15;
-    // [SerializeField] float bouncingTime = 1f;
-    // [SerializeField] float frStunnTime = 2f;
-    // [SerializeField] float hvFSTMultiplier = 2f;
-
     [SerializeField] ManaCrystal crystal;
     [SerializeField] EnemyType enemyType;
 
@@ -66,6 +50,8 @@ public class GoblinEnemy : MonoBehaviour
     float frStunnTime;
     float hvFSTMultiplier;
     //***********************************************//
+    bool isMetal;
+    //***********************************************//
     string Goblin_idle;
     string Goblin_bouncing;
     string Goblin_attack;
@@ -92,6 +78,7 @@ public class GoblinEnemy : MonoBehaviour
     bool canStunn = true;
     int saveDmg;
     bool isBouncingFast;
+    bool isLightDmgProof;
 
     void Start()
     {
@@ -120,6 +107,8 @@ public class GoblinEnemy : MonoBehaviour
         frStunnTime = enemyType.frStunnTime;
         hvFSTMultiplier = enemyType.hvFSTMultiplier;
         //***********************************************************//
+        isMetal = enemyType.isMetal;
+        //***********************************************************//
         frStunn1 = enemyType.frStunn1;
         frStunn2 = enemyType.frStunn2;
         bouncing1 = enemyType.bouncing1;
@@ -144,6 +133,9 @@ public class GoblinEnemy : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         StartCoroutine(DontMoveOnSpawn());
+        if(isMetal){
+            isLightDmgProof = true;
+        }
     }
 
     void Update()
@@ -198,16 +190,26 @@ public class GoblinEnemy : MonoBehaviour
 
     IEnumerator Attack()
     {
+        // Is charging attack
         myAnimator.Play(Goblin_charge);
         moveSpeed = 0;
         yield return new WaitForSeconds(readyTime);
-        if(!isSmashed && canMove){myAnimator.Play(Goblin_attack);}
+        // Is attacking
+        if(!isSmashed && canMove){
+            myAnimator.Play(Goblin_attack);
+        }
         myTrailRenderer.emitting = true;
         moveSpeed = saveMoveSpeed * jumpAttackMultiplier;
         yield return new WaitForSeconds(attackTime);
+        // Is resting
         yield return new WaitForSeconds(restTime);
-        if(!isSmashed && canMove){myAnimator.Play(Goblin_idle);}
-        if(!isSmashed){myTrailRenderer.emitting = false;}
+        // Returns to chase state
+        if(!isSmashed && canMove){
+            myAnimator.Play(Goblin_idle);
+        }
+        if(!isSmashed){
+            myTrailRenderer.emitting = false;
+        }
         moveSpeed = saveMoveSpeed;
         isFollowingPlayer = true;
         yield return new WaitForSeconds(attackCooldown);
@@ -233,13 +235,21 @@ public class GoblinEnemy : MonoBehaviour
         return lives;
     }
 
+    public bool IsLightDmgProof(){
+        return isLightDmgProof;
+    }
+
+    public float ReturnFrStunnTime(){
+        return frStunnTime;
+    }
+
     void OnTriggerEnter2D(Collider2D other) 
     {
         //other.tag == "Goblin" || other.tag == "RegGoblin"
-        if(other.tag == "Goblin" && !isSmashed)
+        if(other.tag == "Goblin" && !isSmashed && canStunn)
         {
             PlayFrStunn();
-            StartCoroutine(FriendlyStunn());
+            StartCoroutine(FriendlyStunn(other.gameObject.GetComponent<GoblinEnemy>()));
         }
 
         if(other.tag == "Player" && !other.isTrigger)
@@ -257,6 +267,10 @@ public class GoblinEnemy : MonoBehaviour
             }
             else
             {
+                if(isLightDmgProof){
+                    Instantiate(crystal, transform.position, new Quaternion(0,0,0,0));
+                    return;
+                }
                 bounceSpeed = saveBounceSpeed * smashedMultiplier;
                 frStunnTime = savefrStunnTime;
                 isBouncingFast = false;
@@ -336,7 +350,7 @@ public class GoblinEnemy : MonoBehaviour
         }
     }
 
-    IEnumerator FriendlyStunn()
+    IEnumerator FriendlyStunn(GoblinEnemy friend)
     {
         canStunn = true;
 
@@ -346,7 +360,12 @@ public class GoblinEnemy : MonoBehaviour
             canStunn = false;
             canMove = false;
             damage = 0;
-            yield return new WaitForSeconds(frStunnTime);
+            if(isMetal){
+                yield return new WaitForSeconds(friend.ReturnFrStunnTime() / 2);
+            }
+            else{
+                yield return new WaitForSeconds(friend.ReturnFrStunnTime());
+            }
             if(!isSmashed){myAnimator.Play(Goblin_idle);}
             yield return new WaitForSeconds(0.3f);
             canMove = true;

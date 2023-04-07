@@ -12,30 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe6ee698eab1c3a4da6ff0cabdc07f59, type: 3}
   m_Name: 2_MetalGoblin
   m_EditorClassIdentifier: 
-  enemyTypeIndex: 0
-  moveSpeed: 2
+  enemyTypeIndex: 2
+  moveSpeed: 1.5
   bounceSpeed: 8
   smashedMultiplier: 1.5
   hvSmashedMultiplier: 1.8
-  detectionDistance: 3
+  detectionDistance: 5.5
   damage: 1
-  jumpAttackMultiplier: 3.5
-  readyTime: 0.4
-  attackTime: 0.5
+  jumpAttackMultiplier: 7
+  readyTime: 0.5
+  attackTime: 0.8
   restTime: 0
-  attackCooldown: 2
-  lives: 5
-  bouncingTime: 2
-  frStunnTime: 2
+  attackCooldown: 1
+  lives: 9
+  bouncingTime: 6
+  frStunnTime: 3
   hvFSTMultiplier: 2
-  frStunn1: {fileID: 0}
-  frStunn2: {fileID: 0}
-  bouncing1: {fileID: 0}
-  bouncing2: {fileID: 0}
-  bouncing3: {fileID: 0}
-  Goblin_idle: Goblin_idle
-  Goblin_bouncing: Goblin_bouncing
-  Goblin_attack: Goblin_attack
-  Goblin_charge: Goblin_charge
-  Goblin_death: Goblin_death
-  Goblin_stunn: Goblin_stunn
+  isMetal: 1
+  frStunn1: {fileID: 8300000, guid: 9f054462877a188428022ead9cddf2bb, type: 3}
+  frStunn2: {fileID: 8300000, guid: b8966eb52a2d8194d80b438736483175, type: 3}
+  bouncing1: {fileID: 8300000, guid: e5ecc98ff40556543b77c8c2aa090822, type: 3}
+  bouncing2: {fileID: 8300000, guid: a37109c51cd477548ad1c882be3971d5, type: 3}
+  bouncing3: {fileID: 8300000, guid: 72a9b2a2a3eaa584d9ba3a8e2166f0fd, type: 3}
+  Goblin_idle: MetalG_Idle
+  Goblin_bouncing: MetalG_Bounce
+  Goblin_attack: MetalG_Attack
+  Goblin_charge: MetalG_Charge
+  Goblin_death: MetalG_Death
+  Goblin_stunn: MetalG_Stunn

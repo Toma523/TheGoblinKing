@@ -19,6 +19,9 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip hit5;
     [SerializeField] AudioClip hit6;
     [SerializeField] AudioClip hit7;
+    [Header ("Metal Hit")]
+    [SerializeField] AudioClip metalHit1;
+    [SerializeField] AudioClip metalHit2;
     [Header ("Heavy Hit")]
     [SerializeField] AudioClip hvHit1;
     [SerializeField] AudioClip hvHit2;
@@ -137,6 +140,20 @@ public class SoundManager : MonoBehaviour
         // Play clip
         audioSource.clip = charge1;
         audioSource.pitch = 2.5f;
+        audioSource.Play();
+    }
+
+    public void PlayMetalHit(){
+        // Set random clip out of available
+        if(Random.Range(0,2) == 0){
+            audioSource.clip = metalHit1;
+        }
+        else{
+            audioSource.clip = metalHit2;
+        }
+        // Play clip
+        audioSource.pitch = 1.2f;
+        audioSource.volume = 0.8f;
         audioSource.Play();
     }
 }

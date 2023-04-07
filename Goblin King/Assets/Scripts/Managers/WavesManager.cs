@@ -8,8 +8,9 @@ public class WavesManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI waveText;
     [SerializeField] GameObject greenGoblin;
     [SerializeField] GameObject redGoblin;
-    public float spawningTime = 3f;
     [SerializeField] Waves[] wavesArray;
+    [SerializeField] bool canTriggerNextWave = true;
+    public float spawningTime = 3f;
     List<GameObject> enemiesList;
     PlayerMovement playerMovement;
     GoblinEnemy goblinEnemy;
@@ -74,6 +75,7 @@ public class WavesManager : MonoBehaviour
     }
 
     void TriggerNextWave(){
+        if(!canTriggerNextWave){return;}
         // Check if there is any wave left to come
         if(i > wavesArray.Length - 1){
             Debug.Log("No more waves!");

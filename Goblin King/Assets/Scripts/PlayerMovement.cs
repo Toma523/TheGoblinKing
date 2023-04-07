@@ -115,17 +115,35 @@ public class PlayerMovement : MonoBehaviour
             float horizontal = Input.GetAxis ("Horizontal");
             // * Time.deltaTime * 1    niewiem po co to   ^
             float vertical = Input.GetAxis ("Vertical");
+
+            float angle = Mathf.Atan2 (horizontal, vertical) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler (new Vector3 (0, 0, angle));
+            saveRotation = transform.rotation;
+
+            if(angle == 0f){
+                noLookInputTime -= 1f * Time.unscaledDeltaTime;
+
+                if(noLookInputTime < -99)
+                {
+                    noLookInputTime = 0;
+                }
+            }
+            else{
+                noLookInputTime = saveNoInputTime;
+                spriteAnimator.SetBool("isSleeping", false);
+            }
+
             // * Time.deltaTime *   niewiem po co to  ^
-            if(horizontal == 0f || vertical == 0f)
-            {
-                transform.rotation = saveRotation;
-            }
-            else
-            {
-                float angle = Mathf.Atan2 (horizontal, vertical) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler (new Vector3 (0, 0, angle));
-                saveRotation = transform.rotation;
-            }
+            // if(horizontal == 0f || vertical == 0f)
+            // {
+            //     transform.rotation = saveRotation;
+            // }
+            // else
+            // {
+            //     float angle = Mathf.Atan2 (horizontal, vertical) * Mathf.Rad2Deg;
+            //     transform.rotation = Quaternion.Euler (new Vector3 (0, 0, angle));
+            //     saveRotation = transform.rotation;
+            // }
         }
 
         if(!Input.anyKey)
@@ -402,7 +420,12 @@ public class PlayerMovement : MonoBehaviour
                     soundManager.PlayHvHit();
                 }
                 else{
-                    soundManager.PlayHit();
+                    if(other.gameObject.GetComponent<GoblinEnemy>().IsLightDmgProof()){
+                        soundManager.PlayMetalHit();
+                    }
+                    else{
+                        soundManager.PlayHit();
+                    }
                 }
             }
             else if(other.tag == "Hor Wall" || other.tag == "Ver Wall" || other.tag == "Bounce Pad"){
@@ -413,13 +436,13 @@ public class PlayerMovement : MonoBehaviour
 
     void OnAttack(InputValue value)
     {
-        if(isReadyToAttack)
+        if(isReadyToAttack && !isReadyToHvAttack)
         {
             StartCoroutine(Attack());
         }
         else
         {
-            if(isAttacking)
+            if(isAttacking && !isReadyToHvAttack)
             {
                 pressedAttack = true;
             }

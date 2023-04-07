@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe6ee698eab1c3a4da6ff0cabdc07f59, type: 3}
   m_Name: 1_RedGoblin
   m_EditorClassIdentifier: 
-  enemyTypeIndex: 0
+  enemyTypeIndex: 1
   moveSpeed: 3.5
   bounceSpeed: 9
   smashedMultiplier: 1.3
@@ -25,9 +25,10 @@ MonoBehaviour:
   restTime: 0
   attackCooldown: 3
   lives: 3
-  bouncingTime: 2
+  bouncingTime: 4
   frStunnTime: 2
   hvFSTMultiplier: 2
+  isMetal: 0
   frStunn1: {fileID: 8300000, guid: 9f054462877a188428022ead9cddf2bb, type: 3}
   frStunn2: {fileID: 8300000, guid: b8966eb52a2d8194d80b438736483175, type: 3}
   bouncing1: {fileID: 8300000, guid: e5ecc98ff40556543b77c8c2aa090822, type: 3}

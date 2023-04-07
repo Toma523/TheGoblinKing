@@ -28,6 +28,10 @@ public class EnemyType : ScriptableObject
     public float frStunnTime = 2f;
     public float hvFSTMultiplier = 2f;
 
+    //************************ Enemy Type Traits ************************//
+
+    public bool isMetal;
+
     //************************ Sounds ************************//
 
     [Header ("Friendly Stunn")]
