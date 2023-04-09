@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyTypeIndex: 2
   moveSpeed: 1.5
-  bounceSpeed: 8
+  bounceSpeed: 6.5
   smashedMultiplier: 1.5
-  hvSmashedMultiplier: 1.8
+  hvSmashedMultiplier: 2.2
   detectionDistance: 5.5
   damage: 1
   jumpAttackMultiplier: 7
@@ -24,7 +24,7 @@ MonoBehaviour:
   attackTime: 0.8
   restTime: 0
   attackCooldown: 1
-  lives: 9
+  lives: 6
   bouncingTime: 6
   frStunnTime: 3
   hvFSTMultiplier: 2

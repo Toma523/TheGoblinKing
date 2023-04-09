@@ -75,10 +75,13 @@ public class GoblinEnemy : MonoBehaviour
     bool isFollowingPlayer = true;
     bool canDoSmashAnimation;
     bool isDoingSmashAnimation;
-    bool canStunn = true;
     int saveDmg;
     bool isBouncingFast;
     bool isLightDmgProof;
+    Vector2 futureVelocity;
+    bool isAttacking;
+    Vector3 direction;
+    int stunnsAmount;
 
     void Start()
     {
@@ -133,8 +136,13 @@ public class GoblinEnemy : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         StartCoroutine(DontMoveOnSpawn());
+        
         if(isMetal){
             isLightDmgProof = true;
+        }
+        else
+        {
+            StartCoroutine(LatencyLoop());
         }
     }
 
@@ -149,7 +157,12 @@ public class GoblinEnemy : MonoBehaviour
         AnimationSwitch();
         if(!isSmashed)
         {
-            Vector3 direction = (playerPosition - transform.position).normalized;
+            if(isAttacking){
+                direction = (velocity).normalized;
+            }
+            else{
+                direction = (playerPosition - transform.position).normalized;
+            }
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             myRigidbody.rotation = angle;
         }
@@ -158,6 +171,22 @@ public class GoblinEnemy : MonoBehaviour
     void FixedUpdate() 
     {
         Move();
+    }
+
+    IEnumerator LatencyLoop(){
+        // Makes enemies chase late position of the player
+
+        // Updates chase direction every given seconds
+        yield return new WaitForSeconds(0.15f);
+
+        if(!isSmashed){
+            // velocity is based on previous player position
+            velocity = futureVelocity;
+            // saves current player position for next loop
+            futureVelocity = (playerPosition - myTransform.position).normalized;
+        }
+
+        StartCoroutine(LatencyLoop());
     }
 
     IEnumerator DontMoveOnSpawn(){
@@ -180,9 +209,11 @@ public class GoblinEnemy : MonoBehaviour
         {
             if(Vector3.Distance(playerPosition,myTransform.position) <= detectionDistance)
             {
-                playerPosition = (playerPosition - myTransform.position) * 10;
+                // if(isMetal){
+                //     playerPosition = (playerPosition - myTransform.position) * 10;
+                //     isFollowingPlayer = false;
+                // }
                 canAttack = false;
-                isFollowingPlayer = false;
                 StartCoroutine(Attack());
             }
         }
@@ -195,12 +226,14 @@ public class GoblinEnemy : MonoBehaviour
         moveSpeed = 0;
         yield return new WaitForSeconds(readyTime);
         // Is attacking
+        isAttacking = true;
         if(!isSmashed && canMove){
             myAnimator.Play(Goblin_attack);
         }
         myTrailRenderer.emitting = true;
         moveSpeed = saveMoveSpeed * jumpAttackMultiplier;
         yield return new WaitForSeconds(attackTime);
+        isAttacking = false;
         // Is resting
         yield return new WaitForSeconds(restTime);
         // Returns to chase state
@@ -246,8 +279,9 @@ public class GoblinEnemy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other) 
     {
         //other.tag == "Goblin" || other.tag == "RegGoblin"
-        if(other.tag == "Goblin" && !isSmashed && canStunn)
+        if(other.tag == "Goblin" && !isSmashed)
         {
+            stunnsAmount++;
             PlayFrStunn();
             StartCoroutine(FriendlyStunn(other.gameObject.GetComponent<GoblinEnemy>()));
         }
@@ -352,24 +386,20 @@ public class GoblinEnemy : MonoBehaviour
 
     IEnumerator FriendlyStunn(GoblinEnemy friend)
     {
-        canStunn = true;
-
-        if(canStunn)
-        {
-            myAnimator.Play(Goblin_stunn);
-            canStunn = false;
-            canMove = false;
-            damage = 0;
-            if(isMetal){
-                yield return new WaitForSeconds(friend.ReturnFrStunnTime() / 2);
-            }
-            else{
-                yield return new WaitForSeconds(friend.ReturnFrStunnTime());
-            }
+        myAnimator.Play(Goblin_stunn);
+        canMove = false;
+        damage = 0;
+        if(isMetal){
+            yield return new WaitForSeconds(friend.ReturnFrStunnTime() * 0.5f);
+        }
+        else{
+            yield return new WaitForSeconds(friend.ReturnFrStunnTime());
+        }
+        stunnsAmount--;
+        if(stunnsAmount == 0){
             if(!isSmashed){myAnimator.Play(Goblin_idle);}
             yield return new WaitForSeconds(0.3f);
             canMove = true;
-            canStunn = true;
             damage = saveDmg;
         }
     }
@@ -479,7 +509,10 @@ public class GoblinEnemy : MonoBehaviour
             {
                 if(isBouncing){return;}
 
-                velocity = (playerPosition - myTransform.position).normalized;
+                if(isMetal && !isAttacking){
+                    velocity = (playerPosition - myTransform.position).normalized;
+                }
+
                 myRigidbody.velocity = velocity * moveSpeed;
                 retVelocity = velocity * moveSpeed;
             }
@@ -514,7 +547,7 @@ public class GoblinEnemy : MonoBehaviour
         }
         // Play clip
         audioSource.pitch = 1f;
-        audioSource.volume = 0.5f;
+        audioSource.volume = 0.3f;
         audioSource.Play();
     }
 
@@ -529,7 +562,7 @@ public class GoblinEnemy : MonoBehaviour
         }
         // Play clip
         audioSource.pitch = 1f;
-        audioSource.volume = 0.5f;
+        audioSource.volume = 0.3f;
         audioSource.Play();
     }
 }

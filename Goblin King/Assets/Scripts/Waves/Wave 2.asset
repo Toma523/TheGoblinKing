@@ -15,5 +15,7 @@ MonoBehaviour:
   minEnemiesAmount: 3
   maxEnemiesAmount: 4
   greenGoblin: 1
-  redGoblin: 1
-  redGoblinChance: 15
+  redGoblin: 0
+  metalGoblin: 0
+  redGoblinChance: 0
+  metalGoblinChance: 0

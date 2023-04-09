@@ -8,7 +8,11 @@ public class WavesManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI waveText;
     [SerializeField] GameObject greenGoblin;
     [SerializeField] GameObject redGoblin;
-    [SerializeField] Waves[] wavesArray;
+    [SerializeField] GameObject metalGoblin;
+    [SerializeField] int activeChallenge = 1;
+    [SerializeField] Waves[] challenge1Array;
+    [SerializeField] Waves[] challenge2Array;
+    [SerializeField] Waves[] challenge3Array;
     [SerializeField] bool canTriggerNextWave = true;
     public float spawningTime = 3f;
     List<GameObject> enemiesList;
@@ -18,6 +22,7 @@ public class WavesManager : MonoBehaviour
     int enemiesKilled;
     int enemiesAmount;
     int i;
+    Waves[] activeChallengeArray;
 
     void Start() {
         playerMovement = FindObjectOfType<PlayerMovement>();
@@ -25,6 +30,15 @@ public class WavesManager : MonoBehaviour
 
 
         // Idzie do osobnej funkcji
+        if(activeChallenge == 1){
+            activeChallengeArray = challenge1Array;
+        }
+        if(activeChallenge == 2){
+            activeChallengeArray = challenge2Array;
+        }
+        if(activeChallenge == 3){
+            activeChallengeArray = challenge3Array;
+        }
         TriggerNextWave();
     }
 
@@ -32,22 +46,27 @@ public class WavesManager : MonoBehaviour
         // Spawn given amount of enemies
         enemiesAmount = Random.Range(currentWave.minEnemiesAmount, currentWave.maxEnemiesAmount + 1);
         for (int i = 0; i < enemiesAmount; i++){
-            // Check if can spawn Red Goblin
-            if(currentWave.redGoblin){
-                // Calculate the chance of spawning Red Goblin
-                if(Random.Range(1, 100) <= currentWave.redGoblinChance){
+            // Check if can spawn any special Goblin
+            if(currentWave.redGoblin || currentWave.metalGoblin){
+                // Calculate the chance of spawning special Goblins
+                int chance = Random.Range(1, 101);
+                if(chance <= currentWave.redGoblinChance){
                     // Spawn Red Goblin
-                    Instantiate(redGoblin, new Vector3(Random.Range(-10,10), Random.Range(5,-5), 0), Quaternion.identity);
+                    Instantiate(redGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
+                }
+                else if(chance <= currentWave.redGoblinChance + currentWave.metalGoblinChance){
+                    // Spawn Metal Goblin
+                    Instantiate(metalGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
                 }
                 else if(currentWave.greenGoblin){
                     // Spawn Green Goblin
-                    Instantiate(greenGoblin, new Vector3(Random.Range(-10,10), Random.Range(5,-5), 0), Quaternion.identity);
+                    Instantiate(greenGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
                 }
             }
             // Check if can spawn Green Goblin
             else if(currentWave.greenGoblin){
                 // Spawn Green Goblin
-                Instantiate(greenGoblin, new Vector3(Random.Range(-10,10), Random.Range(5,-5), 0), Quaternion.identity);
+                Instantiate(greenGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
             }
         }
 
@@ -77,12 +96,12 @@ public class WavesManager : MonoBehaviour
     void TriggerNextWave(){
         if(!canTriggerNextWave){return;}
         // Check if there is any wave left to come
-        if(i > wavesArray.Length - 1){
+        if(i > activeChallengeArray.Length - 1){
             Debug.Log("No more waves!");
             return;
         }
         // Set up next wave
-        currentWave = wavesArray[i];
+        currentWave = activeChallengeArray[i];
         i++;
         waveText.text = "Wave " + i;
         SpawnEnemies();

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e9758543e60b87448fcc7f31e289081, type: 3}
-  m_Name: Wave 5
+  m_Name: Wave 11
   m_EditorClassIdentifier: 
-  minEnemiesAmount: 5
-  maxEnemiesAmount: 6
+  minEnemiesAmount: 3
+  maxEnemiesAmount: 3
   greenGoblin: 1
   redGoblin: 1
-  metalGoblin: 0
-  redGoblinChance: 30
-  metalGoblinChance: 0
+  metalGoblin: 1
+  redGoblinChance: 10
+  metalGoblinChance: 80

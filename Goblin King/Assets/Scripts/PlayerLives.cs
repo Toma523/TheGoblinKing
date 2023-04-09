@@ -9,6 +9,7 @@ public class PlayerLives : MonoBehaviour
     [SerializeField] int playerLives = 100;
     [SerializeField] TextMeshProUGUI livesText;
     [SerializeField] float dmgProtTime = 3f;
+    [SerializeField] float noAttackTime = 1f;
     [SerializeField] List<GameObject> livesList;
     GoblinEnemy goblinEnemy;
     RedGoblin redGoblin;
@@ -17,6 +18,7 @@ public class PlayerLives : MonoBehaviour
     public bool isStunned;
     bool canDamagePlayer;
     float saveDmgProtTime;
+    float saveNoAttackTime;
     bool isProtected;
     int enemyDmg;
     int livesListIndex;
@@ -28,6 +30,7 @@ public class PlayerLives : MonoBehaviour
         playerMovement = FindObjectOfType<PlayerMovement>();
         livesText.text = playerLives.ToString();
         saveDmgProtTime = dmgProtTime;
+        saveNoAttackTime = noAttackTime;
         redGoblin = FindObjectOfType<RedGoblin>();
         SetListOnStart();
     }
@@ -51,6 +54,12 @@ public class PlayerLives : MonoBehaviour
         if(isProtected)
         {
             dmgProtTime -= 1f * Time.deltaTime;
+            noAttackTime -= 1f * Time.deltaTime;
+
+            if(noAttackTime <= 0)
+            {
+                playerMovement.AllowActions();
+            }
             
             if(dmgProtTime <= 0)
             {
@@ -77,6 +86,7 @@ public class PlayerLives : MonoBehaviour
                 isProtected = true;
                 TakePlayerLives(enemy.tag);
                 dmgProtTime = saveDmgProtTime;
+                noAttackTime = saveNoAttackTime;
             }
         }
     }

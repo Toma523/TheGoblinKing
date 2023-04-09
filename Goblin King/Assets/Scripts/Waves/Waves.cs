@@ -9,5 +9,7 @@ public class Waves : ScriptableObject
     public int maxEnemiesAmount;
     public bool greenGoblin;
     public bool redGoblin;
+    public bool metalGoblin;
     public int redGoblinChance;
+    public int metalGoblinChance;
 }

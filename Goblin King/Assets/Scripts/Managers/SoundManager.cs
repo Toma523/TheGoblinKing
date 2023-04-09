@@ -133,6 +133,7 @@ public class SoundManager : MonoBehaviour
         // Play clip
         audioSource.clip = dash1;
         audioSource.pitch = 1f;
+        audioSource.volume = 0.6f;
         audioSource.Play();
     }
 

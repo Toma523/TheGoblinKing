@@ -7,6 +7,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5414989428469463932, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
+      propertyPath: m_Time
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -5414989428469463932, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5414989428469463932, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.94117653
+      objectReference: {fileID: 0}
+    - target: {fileID: -5414989428469463932, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: -5414989428469463932, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5414989428469463932, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0.94117653
+      objectReference: {fileID: 0}
+    - target: {fileID: -5414989428469463932, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: -5414989428469463932, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.85100436
+      objectReference: {fileID: 0}
     - target: {fileID: 4899716625536982127, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
       propertyPath: m_Controller
       value: 
@@ -33,11 +65,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6058959068014612867, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.9299998
+      value: -5.38
       objectReference: {fileID: 0}
     - target: {fileID: 6058959068014612867, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.1900005
+      value: 1.06
       objectReference: {fileID: 0}
     - target: {fileID: 6058959068014612867, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -73,7 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6058959068014612877, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
       propertyPath: m_Name
-      value: MetalGoblin
+      value: MetalGoblin (1)
       objectReference: {fileID: 0}
     - target: {fileID: 6058959068540302103, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
       propertyPath: m_Sprite

@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e9758543e60b87448fcc7f31e289081, type: 3}
   m_Name: Wave 6
   m_EditorClassIdentifier: 
-  minEnemiesAmount: 4
-  maxEnemiesAmount: 6
+  minEnemiesAmount: 6
+  maxEnemiesAmount: 7
   greenGoblin: 1
   redGoblin: 1
-  redGoblinChance: 50
+  metalGoblin: 0
+  redGoblinChance: 90
+  metalGoblinChance: 0

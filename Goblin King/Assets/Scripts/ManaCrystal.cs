@@ -15,9 +15,8 @@ public class ManaCrystal : MonoBehaviour
         player = FindObjectOfType<PlayerMovement>();
     }
 
-    void Update() 
-    {
-        myRgbd.velocity = (player.transform.position - transform.position).normalized * flyingSpeed * 100 * Time.deltaTime;
+    private void FixedUpdate() {
+        myRgbd.velocity = (player.transform.position - transform.position).normalized * flyingSpeed * 100 * Time.fixedDeltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D other) 

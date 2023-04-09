@@ -221,12 +221,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     
+    public void AllowActions()
+    {
+        spriteAnimator.SetBool("isDamaged", false);
+        isReadyToAttack = true;
+    }
+
     public void StopDmgActions()
     {
-        //spriteAnimator.SetBool("isProtectionOff", true);
-        spriteAnimator.SetBool("isDamaged", false);
         canStartDmgAnimation = true;
-        isReadyToAttack = true;
     }
 
     public void DeathAnimation()
@@ -411,26 +414,25 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other) 
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if(myAttackHitbox.enabled == true)
-        {
-            if(other.tag == "Goblin"){
-                if(isHvAttacking){
-                    soundManager.PlayHvHit();
-                }
-                else{
-                    if(other.gameObject.GetComponent<GoblinEnemy>().IsLightDmgProof()){
-                        soundManager.PlayMetalHit();
-                    }
-                    else{
-                        soundManager.PlayHit();
-                    }
-                }
+        if(myAttackHitbox.enabled == false){return;}
+        
+        if(other.tag == "Goblin"){
+            if(isHvAttacking){
+                soundManager.PlayHvHit();
+                return;
             }
-            else if(other.tag == "Hor Wall" || other.tag == "Ver Wall" || other.tag == "Bounce Pad"){
-                soundManager.PlayHitWall();
+
+            if(other.gameObject.GetComponent<GoblinEnemy>().IsLightDmgProof()){
+                soundManager.PlayMetalHit();
+                return;
             }
+            
+            soundManager.PlayHit();
+        }
+        else if(other.tag == "Hor Wall" || other.tag == "Ver Wall" || other.tag == "Bounce Pad"){
+            soundManager.PlayHitWall();
         }
     }
 
