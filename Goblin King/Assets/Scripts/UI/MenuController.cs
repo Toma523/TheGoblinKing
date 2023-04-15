@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
     [SerializeField] GameObject menuCanvas;
     [SerializeField] GameObject challengesCanvas;
     GameManager gameManager;
-    WavesManager wavesManager;
+    int challengeIndex;
 
     void Start(){
         DontDestroyOnLoad(gameObject);
         gameManager = FindObjectOfType<GameManager>();
-        wavesManager = FindObjectOfType<WavesManager>();
         challengesCanvas.SetActive(false);
     }
 
@@ -22,18 +22,18 @@ public class MenuController : MonoBehaviour
     }
 
     public void StartChallenge1(){
-        wavesManager.SetActiveChallenge(1);
         gameManager.OpenGameScene();
+        challengeIndex = 1;
     }
 
     public void StartChallenge2(){
-        wavesManager.SetActiveChallenge(2);
         gameManager.OpenGameScene();
+        challengeIndex = 2;
     }
 
     public void StartChallenge3(){
-        wavesManager.SetActiveChallenge(3);
         gameManager.OpenGameScene();
+        challengeIndex = 3;
     }
 
     public void GoToMenu(){
@@ -52,5 +52,11 @@ public class MenuController : MonoBehaviour
     public void Quit(){
         Debug.Log("Quit!");
         Application.Quit();
+    }
+
+    //**************************** Return Functions *************************//
+
+    public int ReturnChallengeIndex(){
+        return challengeIndex;
     }
 }

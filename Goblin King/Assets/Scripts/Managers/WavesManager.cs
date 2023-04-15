@@ -19,6 +19,7 @@ public class WavesManager : MonoBehaviour
     PlayerMovement playerMovement;
     GoblinEnemy goblinEnemy;
     Waves currentWave;
+    MenuController menuController;
     int enemiesKilled;
     int enemiesAmount;
     int i;
@@ -27,7 +28,14 @@ public class WavesManager : MonoBehaviour
     void Start() {
         playerMovement = FindObjectOfType<PlayerMovement>();
         goblinEnemy = FindObjectOfType<GoblinEnemy>();
-        // Idzie do osobnej funkcji
+        menuController = FindObjectOfType<MenuController>();
+        activeChallenge = menuController.ReturnChallengeIndex();
+        StartCoroutine(StartSpawningWaves());
+    }
+
+    IEnumerator StartSpawningWaves(){
+        yield return new WaitForSecondsRealtime(1);
+
         if(activeChallenge == 1){
             activeChallengeArray = challenge1Array;
         }
@@ -108,6 +116,7 @@ public class WavesManager : MonoBehaviour
 
     public void SetActiveChallenge(int challengeIndex){
         activeChallenge = challengeIndex;
+        Debug.Log(challengeIndex);
     }
 
     //******************************* Return functions *********************************//
