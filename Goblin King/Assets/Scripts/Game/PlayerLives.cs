@@ -12,7 +12,6 @@ public class PlayerLives : MonoBehaviour
     [SerializeField] float noAttackTime = 1f;
     [SerializeField] List<GameObject> livesList;
     GoblinEnemy goblinEnemy;
-    RedGoblin redGoblin;
     PlayerMovement playerMovement;
     EnemyType enemyType;
     public bool isStunned;
@@ -31,7 +30,6 @@ public class PlayerLives : MonoBehaviour
         livesText.text = playerLives.ToString();
         saveDmgProtTime = dmgProtTime;
         saveNoAttackTime = noAttackTime;
-        redGoblin = FindObjectOfType<RedGoblin>();
         SetListOnStart();
     }
 
