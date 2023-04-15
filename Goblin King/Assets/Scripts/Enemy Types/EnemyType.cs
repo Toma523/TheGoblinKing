@@ -45,10 +45,11 @@ public class EnemyType : ScriptableObject
     //************************ Animations ************************//
 
     [Header ("Animations")]
-    public string Goblin_idle = "Goblin_idle";
-    public string Goblin_bouncing = "Goblin_bouncing";
-    public string Goblin_attack = "Goblin_attack";
-    public string Goblin_charge = "Goblin_charge";
-    public string Goblin_death = "Goblin_death";
-    public string Goblin_stunn = "Goblin_stunn";
+    public string goblin_idle = "Goblin_idle";
+    public string goblin_bouncing = "Goblin_bouncing";
+    public string goblin_attack = "Goblin_attack";
+    public string goblin_charge = "Goblin_charge";
+    public string goblin_death = "Goblin_death";
+    public string goblin_stunn = "Goblin_stunn";
+    public string spawn_portal = "Spawn_Portal";
 }

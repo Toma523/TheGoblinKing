@@ -61,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
     bool isNewWaveProtected;
     bool isDashing;
     bool canPlayChargeSound = true;
+    bool canRotate = true;
 
     void Start() 
     {
@@ -88,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         ChargeTimer();
         if(isUsingMouse && !isGamePaused)
         {
-            if(isHvAttacking || isAttacking){return;}
+            if(isHvAttacking || !canRotate){return;}
             Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             Vector2 direction = mousePosition - transform.position;
             float angle = Vector2.SignedAngle(Vector2.up, direction);
@@ -111,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if(isHvAttacking || isAttacking || isGamePaused){return;}
+            if(isHvAttacking || !canRotate || isGamePaused){return;}
             float horizontal = Input.GetAxis ("Horizontal");
             // * Time.deltaTime * 1    niewiem po co to   ^
             float vertical = Input.GetAxis ("Vertical");
@@ -224,7 +225,9 @@ public class PlayerMovement : MonoBehaviour
     public void AllowActions()
     {
         spriteAnimator.SetBool("isDamaged", false);
-        isReadyToAttack = true;
+        if(!isAttacking){
+            isReadyToAttack = true;
+        }
     }
 
     public void StopDmgActions()
@@ -254,13 +257,14 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Attack()
     {
+        canRotate = false;
         isReadyToAttack = false;
-        spriteAnimator.SetBool("isAttacking", true);
         isAttacking = true;
+        spriteAnimator.SetBool("isAttacking", true);
         soundManager.PlayWhoosh();
         yield return new WaitForSecondsRealtime(attackCooldown);
+        canRotate = true;
         // Attack again if pressed the button to soon
-        isAttacking = false;
         if(pressedAttack)
         {
             yield return new WaitForSecondsRealtime(0.1f);
@@ -269,6 +273,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            isAttacking = false;
             isReadyToAttack = true;
         }
     }
@@ -333,6 +338,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Dash()
     {
+        myAttackHitbox.enabled = false;
         myTrailRenderer.emitting = true;
         isDmgProtected = true;
         canDash = false;
@@ -344,7 +350,9 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(dashTime);
         StartCoroutine(DashDmgProtection());
         isDashing = false;
-        isReadyToAttack = true;
+        if(!isAttacking){
+            isReadyToAttack = true;
+        }
         canMove = true;
         myRigidBody.velocity = lastMove;
         myTrailRenderer.emitting = false;

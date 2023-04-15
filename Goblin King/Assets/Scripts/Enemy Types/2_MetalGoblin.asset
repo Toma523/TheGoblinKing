@@ -16,7 +16,7 @@ MonoBehaviour:
   moveSpeed: 1.5
   bounceSpeed: 6.5
   smashedMultiplier: 1.5
-  hvSmashedMultiplier: 2.2
+  hvSmashedMultiplier: 2.5
   detectionDistance: 5.5
   damage: 1
   jumpAttackMultiplier: 7
@@ -34,9 +34,10 @@ MonoBehaviour:
   bouncing1: {fileID: 8300000, guid: e5ecc98ff40556543b77c8c2aa090822, type: 3}
   bouncing2: {fileID: 8300000, guid: a37109c51cd477548ad1c882be3971d5, type: 3}
   bouncing3: {fileID: 8300000, guid: 72a9b2a2a3eaa584d9ba3a8e2166f0fd, type: 3}
-  Goblin_idle: MetalG_Idle
-  Goblin_bouncing: MetalG_Bounce
-  Goblin_attack: MetalG_Attack
-  Goblin_charge: MetalG_Charge
-  Goblin_death: MetalG_Death
-  Goblin_stunn: MetalG_Stunn
+  goblin_idle: MetalG_Idle
+  goblin_bouncing: MetalG_Bounce
+  goblin_attack: MetalG_Attack
+  goblin_charge: MetalG_Charge
+  goblin_death: MetalG_Death
+  goblin_stunn: MetalG_Stunn
+  spawn_portal: Spawn_Portal

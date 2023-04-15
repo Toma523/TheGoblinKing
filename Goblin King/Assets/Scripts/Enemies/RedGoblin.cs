@@ -337,7 +337,7 @@ public class RedGoblin : MonoBehaviour
                 myTrailRenderer.emitting = false;
                 isSmashed = false;
                 isBouncing = false;
-                bodySpin.StopBodySpin();
+                bodySpin.SetNormalRotation();
                 StartCoroutine(MakeBodyNotTrigger());
             }
             canStopBouncing = false;
@@ -359,7 +359,7 @@ public class RedGoblin : MonoBehaviour
 
     IEnumerator Death()
     {
-        bodySpin.StopBodySpin();
+        bodySpin.SetNormalRotation();
         yield return new WaitForSeconds(2f);
         wavesManager.EnemyKilled();
         gameObject.SetActive(false);

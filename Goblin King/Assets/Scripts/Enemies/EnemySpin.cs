@@ -20,10 +20,14 @@ public class EnemySpin : MonoBehaviour
         canSpin = true;
     }
 
-    public void StopBodySpin()
+    public void SetNormalRotation()
     {
         canSpin = false;
         // Go back to normal rotation
         transform.localRotation = new Quaternion(0.00000f, 0.00000f, 0.70711f, 0.70711f);
+    }
+
+    public void SetRotationOnSpawn(float rotation){
+        transform.rotation = new Quaternion(0,0,rotation,0);
     }
 }

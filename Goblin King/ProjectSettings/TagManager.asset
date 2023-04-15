@@ -12,6 +12,7 @@ TagManager:
   - Detector
   - TankGoblin
   - Crystal
+  - Death Wall
   layers:
   - Default
   - TransparentFX

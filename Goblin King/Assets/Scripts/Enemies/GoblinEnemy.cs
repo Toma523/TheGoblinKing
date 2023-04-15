@@ -52,12 +52,13 @@ public class GoblinEnemy : MonoBehaviour
     //***********************************************//
     bool isMetal;
     //***********************************************//
-    string Goblin_idle;
-    string Goblin_bouncing;
-    string Goblin_attack;
-    string Goblin_charge;
-    string Goblin_death;
-    string Goblin_stunn;
+    string goblin_idle;
+    string goblin_bouncing;
+    string goblin_attack;
+    string goblin_charge;
+    string goblin_death;
+    string goblin_stunn;
+    string spawn_portal;
     //***********************************************//
     bool isSmashed;
     bool isTouchingPlayer;
@@ -82,17 +83,19 @@ public class GoblinEnemy : MonoBehaviour
     bool isAttacking;
     Vector3 direction;
     int stunnsAmount;
+    bool canRotate;
 
     void Start()
     {
         enemyTypeIndex = enemyType.enemyTypeIndex;
         //***********************************************************//
-        Goblin_idle = enemyType.Goblin_idle;
-        Goblin_bouncing = enemyType.Goblin_bouncing;
-        Goblin_attack = enemyType.Goblin_attack;
-        Goblin_charge = enemyType.Goblin_charge;
-        Goblin_death = enemyType.Goblin_death;
-        Goblin_stunn = enemyType.Goblin_stunn;
+        goblin_idle = enemyType.goblin_idle;
+        goblin_bouncing = enemyType.goblin_bouncing;
+        goblin_attack = enemyType.goblin_attack;
+        goblin_charge = enemyType.goblin_charge;
+        goblin_death = enemyType.goblin_death;
+        goblin_stunn = enemyType.goblin_stunn;
+        spawn_portal = enemyType.spawn_portal;
         //***********************************************************//
         moveSpeed = enemyType.moveSpeed;
         bounceSpeed = enemyType.bounceSpeed;
@@ -155,7 +158,7 @@ public class GoblinEnemy : MonoBehaviour
         IsTouchingPlayer();
         CheckDistance();
         AnimationSwitch();
-        if(!isSmashed)
+        if(!isSmashed && canRotate)
         {
             if(isAttacking){
                 direction = (velocity).normalized;
@@ -190,9 +193,15 @@ public class GoblinEnemy : MonoBehaviour
     }
 
     IEnumerator DontMoveOnSpawn(){
+        bodySpin.SetRotationOnSpawn(90f);
+        canRotate = false;
+        myAnimator.Play(spawn_portal);
         canMove = false;
         myBodyCollider.enabled = false;
         yield return new WaitForSeconds(wavesManager.spawningTime);
+        bodySpin.SetNormalRotation();
+        canRotate = true;
+        myAnimator.Play(goblin_idle);
         canMove = true;
         myBodyCollider.enabled = true;
     }
@@ -222,13 +231,13 @@ public class GoblinEnemy : MonoBehaviour
     IEnumerator Attack()
     {
         // Is charging attack
-        myAnimator.Play(Goblin_charge);
+        myAnimator.Play(goblin_charge);
         moveSpeed = 0;
         yield return new WaitForSeconds(readyTime);
         // Is attacking
         isAttacking = true;
         if(!isSmashed && canMove){
-            myAnimator.Play(Goblin_attack);
+            myAnimator.Play(goblin_attack);
         }
         myTrailRenderer.emitting = true;
         moveSpeed = saveMoveSpeed * jumpAttackMultiplier;
@@ -238,7 +247,7 @@ public class GoblinEnemy : MonoBehaviour
         yield return new WaitForSeconds(restTime);
         // Returns to chase state
         if(!isSmashed && canMove){
-            myAnimator.Play(Goblin_idle);
+            myAnimator.Play(goblin_idle);
         }
         if(!isSmashed){
             myTrailRenderer.emitting = false;
@@ -382,11 +391,16 @@ public class GoblinEnemy : MonoBehaviour
             xPositionRevert = -1;
             velocity = new Vector2(myRigidbody.velocity.x * xPositionRevert, myRigidbody.velocity.y * yPositionRevert).normalized;
         }
+
+        if(other.tag == "Death Wall")
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     IEnumerator FriendlyStunn(GoblinEnemy friend)
     {
-        myAnimator.Play(Goblin_stunn);
+        myAnimator.Play(goblin_stunn);
         canMove = false;
         damage = 0;
         if(isMetal){
@@ -397,7 +411,7 @@ public class GoblinEnemy : MonoBehaviour
         }
         stunnsAmount--;
         if(stunnsAmount == 0){
-            if(!isSmashed){myAnimator.Play(Goblin_idle);}
+            if(!isSmashed){myAnimator.Play(goblin_idle);}
             yield return new WaitForSeconds(0.3f);
             canMove = true;
             damage = saveDmg;
@@ -427,7 +441,7 @@ public class GoblinEnemy : MonoBehaviour
                 myTrailRenderer.emitting = false;
                 isSmashed = false;
                 isBouncing = false;
-                bodySpin.StopBodySpin();
+                bodySpin.SetNormalRotation();
                 StartCoroutine(MakeBodyNotTrigger());
             }
             canStopBouncing = false;
@@ -440,7 +454,7 @@ public class GoblinEnemy : MonoBehaviour
     {
         if(lives <= 0)
         {
-            myAnimator.Play(Goblin_death);
+            myAnimator.Play(goblin_death);
             bounceSpeed = 0;
             myBodyCollider.enabled = false;
             StartCoroutine(Death());
@@ -449,7 +463,7 @@ public class GoblinEnemy : MonoBehaviour
 
     IEnumerator Death()
     {
-        bodySpin.StopBodySpin();
+        bodySpin.SetNormalRotation();
         yield return new WaitForSeconds(2f);
         wavesManager.EnemyKilled();
         gameObject.SetActive(false);
@@ -464,7 +478,7 @@ public class GoblinEnemy : MonoBehaviour
 
             if(canDoSmashAnimation)
             {
-                myAnimator.Play(Goblin_bouncing);
+                myAnimator.Play(goblin_bouncing);
                 isDoingSmashAnimation = true;
             }
         }
@@ -474,7 +488,7 @@ public class GoblinEnemy : MonoBehaviour
 
             if(!canDoSmashAnimation)
             {
-                myAnimator.Play(Goblin_idle);
+                myAnimator.Play(goblin_idle);
                 isDoingSmashAnimation = false;
             }
         }
