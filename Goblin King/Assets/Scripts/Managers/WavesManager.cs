@@ -27,8 +27,6 @@ public class WavesManager : MonoBehaviour
     void Start() {
         playerMovement = FindObjectOfType<PlayerMovement>();
         goblinEnemy = FindObjectOfType<GoblinEnemy>();
-
-
         // Idzie do osobnej funkcji
         if(activeChallenge == 1){
             activeChallengeArray = challenge1Array;
@@ -106,6 +104,10 @@ public class WavesManager : MonoBehaviour
         waveText.text = "Wave " + i;
         SpawnEnemies();
         Debug.Log("Next wave!");
+    }
+
+    public void SetActiveChallenge(int challengeIndex){
+        activeChallenge = challengeIndex;
     }
 
     //******************************* Return functions *********************************//

@@ -4,29 +4,52 @@ using UnityEngine;
 
 public class MenuController : MonoBehaviour
 {
-    void Start()
-    {
+    [SerializeField] GameObject menuCanvas;
+    [SerializeField] GameObject challengesCanvas;
+    GameManager gameManager;
+    WavesManager wavesManager;
+
+    void Start(){
         DontDestroyOnLoad(gameObject);
+        gameManager = FindObjectOfType<GameManager>();
+        wavesManager = FindObjectOfType<WavesManager>();
+        challengesCanvas.SetActive(false);
     }
-    void GoToChallenges(){
+
+    public void GoToChallenges(){
+        menuCanvas.SetActive(false);
+        challengesCanvas.SetActive(true);
+    }
+
+    public void StartChallenge1(){
+        wavesManager.SetActiveChallenge(1);
+        gameManager.OpenGameScene();
+    }
+
+    public void StartChallenge2(){
+        wavesManager.SetActiveChallenge(2);
+        gameManager.OpenGameScene();
+    }
+
+    public void StartChallenge3(){
+        wavesManager.SetActiveChallenge(3);
+        gameManager.OpenGameScene();
+    }
+
+    public void GoToMenu(){
+        challengesCanvas.SetActive(false);
+        menuCanvas.SetActive(true);
+    }
+
+    public void GoToOptions(){
         
     }
-    void StartChallenge1(){
+
+    public void StartInfiniteAttack(){
 
     }
-    void StartChallenge2(){
-        
-    }
-    void StartChallenge3(){
-        
-    }
-    void GoToOptions(){
-        
-    }
-    void StartInfiniteAttack(){
 
-    }
-    void Quit(){
+    public void Quit(){
         Debug.Log("Quit!");
         Application.Quit();
     }

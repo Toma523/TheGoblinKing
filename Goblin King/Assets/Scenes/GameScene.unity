@@ -286,7 +286,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &364740461
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -303,7 +303,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &458439735
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -519,11 +520,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -223.55959, y: -462.27393, z: -8.959846}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 799128363}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &539589300
@@ -727,51 +728,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608206069}
   m_CullTransparentMesh: 1
---- !u!1 &799128361
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 799128363}
-  - component: {fileID: 799128362}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &799128362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 799128361}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96a062894af456b41a97acc51db84440, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &799128363
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 799128361}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 223.55959, y: 462.27393, z: -1.0401541}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 519420032}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &839689239
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,7 +1269,7 @@ RectTransform:
   - {fileID: 1771938261}
   - {fileID: 608206070}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1361,74 +1317,8 @@ Transform:
   - {fileID: 1651434526}
   - {fileID: 901794013}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1607011117
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1607011118}
-  - component: {fileID: 1607011119}
-  m_Layer: 0
-  m_Name: WavesManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1607011118
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607011117}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1187.8491, y: 903.7223, z: 2.1310244}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1607011119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607011117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c29dc77ccc150747b7a97e2f271a644, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waveText: {fileID: 608206071}
-  greenGoblin: {fileID: 6058959068014612877, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
-  redGoblin: {fileID: 9053864224960920975, guid: 705a41d09f85d494cac91cec67cad960, type: 3}
-  metalGoblin: {fileID: 8406644091910730456, guid: 85c4d7fba5e78af4c978976b82db4399, type: 3}
-  activeChallenge: 3
-  challenge1Array:
-  - {fileID: 11400000, guid: 3ef71ffbbfc1bc7418b4011ddcf6ecd0, type: 2}
-  - {fileID: 11400000, guid: f8a448e6be956be4798761eaaf9a5329, type: 2}
-  - {fileID: 11400000, guid: 15c756fea09764c44a22b5834f40f574, type: 2}
-  challenge2Array:
-  - {fileID: 11400000, guid: d8c993af4301215418b6bc3810c17606, type: 2}
-  - {fileID: 11400000, guid: 68f75344dc275714b86737766cb0af5e, type: 2}
-  - {fileID: 11400000, guid: 7ffb9bb6451064945a2d8370916fa171, type: 2}
-  - {fileID: 11400000, guid: f3db84901efe3c64c944432f6323f019, type: 2}
-  challenge3Array:
-  - {fileID: 11400000, guid: c9a72b811f646a946add6f56cd377102, type: 2}
-  - {fileID: 11400000, guid: 43cb8bdb436cb56438cf01f03ee87f8a, type: 2}
-  - {fileID: 11400000, guid: 28b75c406312358489025ec7ea35dbab, type: 2}
-  - {fileID: 11400000, guid: 07b358e5f6b67f44aafa2e01e3a811ae, type: 2}
-  - {fileID: 11400000, guid: 0405be7c5066eda47851cd7d36b88a43, type: 2}
-  canTriggerNextWave: 1
-  spawningTime: 1.5
 --- !u!1 &1638628708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1660,7 +1550,7 @@ Transform:
   - {fileID: 839689240}
   - {fileID: 2055605762}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1832319119
 MonoBehaviour:
@@ -6761,7 +6651,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1966789689
 AudioSource:
@@ -6961,7 +6851,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2055605761
 GameObject:
@@ -7318,6 +7208,72 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5427b554ca3b75246a9aae49c7713cbd, type: 3}
+--- !u!4 &2127690053648571578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127690053648571580}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1187.8491, y: 903.7223, z: 2.1310244}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2127690053648571580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2127690053648571578}
+  - component: {fileID: 2127690053648571581}
+  m_Layer: 0
+  m_Name: WavesManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2127690053648571581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127690053648571580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c29dc77ccc150747b7a97e2f271a644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveText: {fileID: 608206071}
+  greenGoblin: {fileID: 6058959068014612877, guid: 959cfa4d5b26404459e81572a56b8dc6, type: 3}
+  redGoblin: {fileID: 9053864224960920975, guid: 705a41d09f85d494cac91cec67cad960, type: 3}
+  metalGoblin: {fileID: 8406644091910730456, guid: 85c4d7fba5e78af4c978976b82db4399, type: 3}
+  activeChallenge: 3
+  challenge1Array:
+  - {fileID: 11400000, guid: 3ef71ffbbfc1bc7418b4011ddcf6ecd0, type: 2}
+  - {fileID: 11400000, guid: f8a448e6be956be4798761eaaf9a5329, type: 2}
+  - {fileID: 11400000, guid: 15c756fea09764c44a22b5834f40f574, type: 2}
+  challenge2Array:
+  - {fileID: 11400000, guid: d8c993af4301215418b6bc3810c17606, type: 2}
+  - {fileID: 11400000, guid: 68f75344dc275714b86737766cb0af5e, type: 2}
+  - {fileID: 11400000, guid: 7ffb9bb6451064945a2d8370916fa171, type: 2}
+  - {fileID: 11400000, guid: f3db84901efe3c64c944432f6323f019, type: 2}
+  challenge3Array:
+  - {fileID: 11400000, guid: c9a72b811f646a946add6f56cd377102, type: 2}
+  - {fileID: 11400000, guid: 43cb8bdb436cb56438cf01f03ee87f8a, type: 2}
+  - {fileID: 11400000, guid: 28b75c406312358489025ec7ea35dbab, type: 2}
+  - {fileID: 11400000, guid: 07b358e5f6b67f44aafa2e01e3a811ae, type: 2}
+  - {fileID: 11400000, guid: 0405be7c5066eda47851cd7d36b88a43, type: 2}
+  canTriggerNextWave: 1
+  spawningTime: 1.5
 --- !u!4 &2464539161520555820 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2787438977035224528, guid: d2a411814b12f3e49b81ab4d34317aae, type: 3}
