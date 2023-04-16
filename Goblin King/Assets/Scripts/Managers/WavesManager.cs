@@ -22,15 +22,71 @@ public class WavesManager : MonoBehaviour
     MenuController menuController;
     int enemiesKilled;
     int enemiesAmount;
-    int i;
+    int waveNumber;
     Waves[] activeChallengeArray;
+    [Header("Infinite Attack")]
+    float timeToNextWave = 10f;
+    int enemiesToSpawn = 1;
+    bool skipNextWaveTime;
 
     void Start() {
         playerMovement = FindObjectOfType<PlayerMovement>();
         goblinEnemy = FindObjectOfType<GoblinEnemy>();
         menuController = FindObjectOfType<MenuController>();
+        // Check if started infinite attack mode
+        if(menuController.ReturnInfiniteAttack()){
+            canTriggerNextWave = false;
+            skipNextWaveTime = true;
+            StartCoroutine(InfiniteAttack());
+        }
+        else{
+            canTriggerNextWave = true;
+        }
+        // Set challenge as the chosen one
         activeChallenge = menuController.ReturnChallengeIndex();
         StartCoroutine(StartSpawningWaves());
+    }
+
+    IEnumerator InfiniteAttack(){
+        if(skipNextWaveTime){
+            yield return new WaitForSeconds(0);
+        }
+        else{
+            yield return new WaitForSeconds(timeToNextWave);
+        }
+        skipNextWaveTime = false;
+        waveNumber++;
+        waveText.text = "Wave " + waveNumber;
+        if(waveNumber == 1){enemiesToSpawn++;} // 2
+        if(waveNumber == 2){enemiesToSpawn++;} // 3
+        if(waveNumber == 3){enemiesToSpawn++;} // 4
+        if(waveNumber == 6){enemiesToSpawn++;} // 5
+        if(waveNumber == 11){enemiesToSpawn++;} // 6
+        if(waveNumber == 16){enemiesToSpawn++;} // 7
+        if(waveNumber == 21){enemiesToSpawn++;} // 8
+        if(waveNumber == 26){enemiesToSpawn++;} // 9
+        if(waveNumber == 31){enemiesToSpawn++;} // 10
+        if(waveNumber == 36){enemiesToSpawn++;} // 11
+        if(waveNumber == 41){enemiesToSpawn++;} // 12
+        enemiesAmount = enemiesToSpawn;
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            // Calculate the chance of spawning special Goblins
+            int chance = Random.Range(1, 101);
+            if(chance <= 40){
+                // Spawn Red Goblin
+                Instantiate(redGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
+            }
+            else if(chance <= 50){
+                // Spawn Metal Goblin
+                Instantiate(metalGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
+            }
+            else{
+                // Spawn Green Goblin
+                Instantiate(greenGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
+            }    
+        }
+        StartCoroutine(InfiniteAttack());
     }
 
     IEnumerator StartSpawningWaves(){
@@ -94,6 +150,7 @@ public class WavesManager : MonoBehaviour
         enemiesKilled += 1;
         // Check if player killed all enemies in current wave
         if(enemiesKilled == enemiesAmount){
+            Debug.Log("Wave Skipped!");
             enemiesKilled = 0;
             TriggerNextWave();
         }
@@ -102,24 +159,18 @@ public class WavesManager : MonoBehaviour
     void TriggerNextWave(){
         if(!canTriggerNextWave){return;}
         // Check if there is any wave left to come
-        if(i > activeChallengeArray.Length - 1){
+        if(waveNumber > activeChallengeArray.Length - 1){
             Debug.Log("No more waves!");
             return;
         }
         // Set up next wave
-        currentWave = activeChallengeArray[i];
-        i++;
-        waveText.text = "Wave " + i;
+        currentWave = activeChallengeArray[waveNumber];
+        waveNumber++;
+        waveText.text = "Wave " + waveNumber;
         SpawnEnemies();
         Debug.Log("Next wave!");
-    }
-
-    public void SetActiveChallenge(int challengeIndex){
-        activeChallenge = challengeIndex;
-        Debug.Log(challengeIndex);
     }
 
     //******************************* Return functions *********************************//
 
 }
-

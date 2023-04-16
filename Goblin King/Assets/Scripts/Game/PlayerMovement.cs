@@ -62,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
     bool isDashing;
     bool canPlayChargeSound = true;
     bool canRotate = true;
+    public bool isDead;
 
     void Start() 
     {
@@ -243,7 +244,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("Death :(");
+        isDead = true;
         gameObject.SetActive(false);
     }
 

@@ -9,6 +9,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] GameObject challengesCanvas;
     GameManager gameManager;
     int challengeIndex;
+    bool infiniteAttack;
 
     void Start(){
         DontDestroyOnLoad(gameObject);
@@ -22,18 +23,18 @@ public class MenuController : MonoBehaviour
     }
 
     public void StartChallenge1(){
-        gameManager.OpenGameScene();
         challengeIndex = 1;
+        gameManager.OpenGameScene();
     }
 
     public void StartChallenge2(){
-        gameManager.OpenGameScene();
         challengeIndex = 2;
+        gameManager.OpenGameScene();
     }
 
     public void StartChallenge3(){
-        gameManager.OpenGameScene();
         challengeIndex = 3;
+        gameManager.OpenGameScene();
     }
 
     public void GoToMenu(){
@@ -46,7 +47,8 @@ public class MenuController : MonoBehaviour
     }
 
     public void StartInfiniteAttack(){
-
+        infiniteAttack = true;
+        gameManager.OpenGameScene();
     }
 
     public void Quit(){
@@ -58,5 +60,9 @@ public class MenuController : MonoBehaviour
 
     public int ReturnChallengeIndex(){
         return challengeIndex;
+    }
+
+    public bool ReturnInfiniteAttack(){
+        return infiniteAttack;
     }
 }

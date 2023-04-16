@@ -151,7 +151,7 @@ public class GoblinEnemy : MonoBehaviour
 
     void Update()
     {
-        if(isFollowingPlayer)
+        if(isFollowingPlayer && !playerMovement.isDead)
         {
             playerPosition = player.GetComponent<Transform>().position;
         }
@@ -311,6 +311,9 @@ public class GoblinEnemy : MonoBehaviour
             else
             {
                 if(isLightDmgProof){
+                    if(isMetal){
+                        Instantiate(crystal, transform.position, new Quaternion(0,0,0,0));
+                    }
                     Instantiate(crystal, transform.position, new Quaternion(0,0,0,0));
                     return;
                 }
@@ -319,6 +322,9 @@ public class GoblinEnemy : MonoBehaviour
                 isBouncingFast = false;
             }
             bodySpin.StartBodySpin();
+            if(isMetal){
+                Instantiate(crystal, transform.position, new Quaternion(0,0,0,0));
+            }
             Instantiate(crystal, transform.position, new Quaternion(0,0,0,0));
             myTrailRenderer.emitting = true;
             lives -= playerMovement.ReturnDamageGiven();
@@ -394,6 +400,7 @@ public class GoblinEnemy : MonoBehaviour
 
         if(other.tag == "Death Wall")
         {
+            wavesManager.EnemyKilled();
             gameObject.SetActive(false);
         }
     }
