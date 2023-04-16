@@ -245,6 +245,7 @@ public class PlayerMovement : MonoBehaviour
     public void GameOver()
     {
         isDead = true;
+        gameManager.ShowGameOverScreen();
         gameObject.SetActive(false);
     }
 

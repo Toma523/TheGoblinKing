@@ -151,8 +151,7 @@ public class GoblinEnemy : MonoBehaviour
 
     void Update()
     {
-        if(isFollowingPlayer && !playerMovement.isDead)
-        {
+        if(isFollowingPlayer && !playerMovement.isDead){
             playerPosition = player.GetComponent<Transform>().position;
         }
         IsTouchingPlayer();
@@ -471,7 +470,7 @@ public class GoblinEnemy : MonoBehaviour
     IEnumerator Death()
     {
         bodySpin.SetNormalRotation();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         wavesManager.EnemyKilled();
         gameObject.SetActive(false);
     }

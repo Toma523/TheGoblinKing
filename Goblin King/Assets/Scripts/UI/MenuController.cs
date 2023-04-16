@@ -9,7 +9,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] GameObject challengesCanvas;
     GameManager gameManager;
     int challengeIndex;
-    bool infiniteAttack;
+    [SerializeField] bool infiniteAttack;
 
     void Start(){
         DontDestroyOnLoad(gameObject);
@@ -18,23 +18,24 @@ public class MenuController : MonoBehaviour
     }
 
     public void GoToChallenges(){
+        infiniteAttack = false;
         menuCanvas.SetActive(false);
         challengesCanvas.SetActive(true);
     }
 
     public void StartChallenge1(){
         challengeIndex = 1;
-        gameManager.OpenGameScene();
+        SceneManager.LoadScene(1);
     }
 
     public void StartChallenge2(){
         challengeIndex = 2;
-        gameManager.OpenGameScene();
+        SceneManager.LoadScene(1);
     }
 
     public void StartChallenge3(){
         challengeIndex = 3;
-        gameManager.OpenGameScene();
+        SceneManager.LoadScene(1);
     }
 
     public void GoToMenu(){
@@ -48,7 +49,7 @@ public class MenuController : MonoBehaviour
 
     public void StartInfiniteAttack(){
         infiniteAttack = true;
-        gameManager.OpenGameScene();
+        SceneManager.LoadScene(1);
     }
 
     public void Quit(){

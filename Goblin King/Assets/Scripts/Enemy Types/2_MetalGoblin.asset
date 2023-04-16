@@ -20,7 +20,7 @@ MonoBehaviour:
   detectionDistance: 5.5
   damage: 1
   jumpAttackMultiplier: 7
-  readyTime: 0.5
+  readyTime: 0.8
   attackTime: 0.8
   restTime: 0
   attackCooldown: 1

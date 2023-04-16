@@ -6,6 +6,7 @@ using TMPro;
 public class WavesManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI waveText;
+    [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] GameObject greenGoblin;
     [SerializeField] GameObject redGoblin;
     [SerializeField] GameObject metalGoblin;
@@ -28,6 +29,7 @@ public class WavesManager : MonoBehaviour
     float timeToNextWave = 10f;
     int enemiesToSpawn = 1;
     bool skipNextWaveTime;
+    int totalEnemiesKilled;
 
     void Start() {
         playerMovement = FindObjectOfType<PlayerMovement>();
@@ -35,12 +37,18 @@ public class WavesManager : MonoBehaviour
         menuController = FindObjectOfType<MenuController>();
         // Check if started infinite attack mode
         if(menuController.ReturnInfiniteAttack()){
+            Debug.Log("Infinite Attack");
             canTriggerNextWave = false;
             skipNextWaveTime = true;
+            scoreText.gameObject.SetActive(true);
+            waveText.gameObject.SetActive(false);
             StartCoroutine(InfiniteAttack());
         }
         else{
+            Debug.Log("Challenges");
             canTriggerNextWave = true;
+            scoreText.gameObject.SetActive(false);
+            waveText.gameObject.SetActive(true);
         }
         // Set challenge as the chosen one
         activeChallenge = menuController.ReturnChallengeIndex();
@@ -56,7 +64,7 @@ public class WavesManager : MonoBehaviour
         }
         skipNextWaveTime = false;
         waveNumber++;
-        waveText.text = "Wave " + waveNumber;
+        waveText.text = "Wave: " + waveNumber;
         if(waveNumber == 1){enemiesToSpawn++;} // 2
         if(waveNumber == 2){enemiesToSpawn++;} // 3
         if(waveNumber == 3){enemiesToSpawn++;} // 4
@@ -69,24 +77,28 @@ public class WavesManager : MonoBehaviour
         if(waveNumber == 36){enemiesToSpawn++;} // 11
         if(waveNumber == 41){enemiesToSpawn++;} // 12
         enemiesAmount = enemiesToSpawn;
-        for (int i = 0; i < enemiesToSpawn; i++)
-        {
-            // Calculate the chance of spawning special Goblins
-            int chance = Random.Range(1, 101);
-            if(chance <= 40){
-                // Spawn Red Goblin
-                Instantiate(redGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
+        if(!playerMovement.isDead){
+            for (int i = 0; i < enemiesToSpawn; i++)
+            {
+                // Calculate the chance of spawning special Goblins
+                int chance = Random.Range(1, 101);
+                if(chance <= 40){
+                    // Spawn Red Goblin
+                    Instantiate(redGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
+                }
+                else if(chance <= 50){
+                    // Spawn Metal Goblin
+                    Instantiate(metalGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
+                }
+                else{
+                    // Spawn Green Goblin
+                    Instantiate(greenGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
+                }    
             }
-            else if(chance <= 50){
-                // Spawn Metal Goblin
-                Instantiate(metalGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
-            }
-            else{
-                // Spawn Green Goblin
-                Instantiate(greenGoblin, new Vector3(Random.Range(-10,11), Random.Range(5,-6), 0), Quaternion.identity);
-            }    
+
+            StartCoroutine(InfiniteAttack());
         }
-        StartCoroutine(InfiniteAttack());
+        
     }
 
     IEnumerator StartSpawningWaves(){
@@ -147,10 +159,11 @@ public class WavesManager : MonoBehaviour
 
     public void EnemyKilled(){
         // Add enemy to killed enemies count
-        enemiesKilled += 1;
+        enemiesKilled++;
+        totalEnemiesKilled++;
+        scoreText.text = "Score: " + totalEnemiesKilled.ToString();
         // Check if player killed all enemies in current wave
         if(enemiesKilled == enemiesAmount){
-            Debug.Log("Wave Skipped!");
             enemiesKilled = 0;
             TriggerNextWave();
         }
@@ -166,9 +179,8 @@ public class WavesManager : MonoBehaviour
         // Set up next wave
         currentWave = activeChallengeArray[waveNumber];
         waveNumber++;
-        waveText.text = "Wave " + waveNumber;
+        waveText.text = "Wave: " + waveNumber;
         SpawnEnemies();
-        Debug.Log("Next wave!");
     }
 
     //******************************* Return functions *********************************//
